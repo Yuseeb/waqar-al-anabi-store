@@ -171,3 +171,18 @@ footer h4{color:#C5A46D}
 .actions button{box-shadow:2px 2px 0 #C5A46D}
 .actions b{background:#7A1E3A;color:#FFFFFF}
 @media(max-width:560px){.product-card:nth-child(3n+1) .product-image,.product-card:nth-child(3n+2) .product-image,.product-card:nth-child(3n) .product-image{box-shadow:4px 4px 0 #E9DFD2}}
+
+/* Burgundy is the primary replacement for the former acid-lime accent */
+:root{--pop-lime:#7A1E3A}
+.announcement{background:#7A1E3A;color:#FFFFFF}
+.brand img{background:#7A1E3A}
+.hero:after{background:#7A1E3A;color:#FFFFFF}
+.hero h1 em{background:#7A1E3A;color:#FFFFFF}
+.hero .btn{box-shadow:5px 5px 0 #7A1E3A}
+.hero .btn:hover{box-shadow:2px 2px 0 #7A1E3A}
+.categories a:hover{box-shadow:11px 11px 0 #7A1E3A}
+.filters button.active,.filters button:hover{background:#7A1E3A;color:#FFFFFF}
+.product-card:nth-child(3n+2) .product-image{box-shadow:6px 6px 0 #7A1E3A}
+.product-image button{background:#7A1E3A;color:#FFFFFF}
+.actions b{background:#7A1E3A;color:#FFFFFF}
+@media(max-width:560px){.product-card:nth-child(3n+2) .product-image{box-shadow:4px 4px 0 #7A1E3A}}
