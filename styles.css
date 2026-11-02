@@ -186,3 +186,15 @@ footer h4{color:#C5A46D}
 .product-image button{background:#7A1E3A;color:#FFFFFF}
 .actions b{background:#7A1E3A;color:#FFFFFF}
 @media(max-width:560px){.product-card:nth-child(3n+2) .product-image{box-shadow:4px 4px 0 #7A1E3A}}
+
+/* HOME PAGE FIX: remove every acid-lime treatment and use burgundy */
+#store .announcement,#store .hero:after,#store .hero h1 em,#store .filters button.active,#store .filters button:hover,#store .product-image button,#store .story,#store footer h4,#store .brand img,#store .actions b{background-color:#7A1E3A!important;color:#FFFFFF!important}
+#store .hero h1 em,#store .hero:after{background:#7A1E3A!important;color:#FFFFFF!important}
+#store .story{background:#7A1E3A!important;color:#FFFFFF!important}
+#store .story h2 em{color:#F7F3ED!important}
+#store .product-card:nth-child(3n+2) .product-image{box-shadow:6px 6px 0 #7A1E3A!important}
+#store .categories a:hover{box-shadow:11px 11px 0 #7A1E3A!important}
+#store .actions button{box-shadow:2px 2px 0 #7A1E3A!important}
+#store .hero .btn{box-shadow:5px 5px 0 #7A1E3A!important}
+#store .hero .btn:hover{box-shadow:2px 2px 0 #7A1E3A!important}
+@media(max-width:560px){#store .product-card:nth-child(3n+2) .product-image{box-shadow:4px 4px 0 #7A1E3A!important}}
