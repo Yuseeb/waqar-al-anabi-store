@@ -143,3 +143,31 @@ footer h4{color:var(--pop-lime)}
 #bag h2{font-size:38px;text-transform:uppercase}#bag .btn{background:var(--wine);color:white}
 @media(max-width:800px){.hero:after{right:5%;bottom:5%;font-size:9px}.intro{margin:0 3%;box-shadow:5px 5px 0 #171416}.story{margin:0 3%;padding:60px 5%;box-shadow:5px 5px 0 #171416}}
 @media(max-width:560px){.hero h1{font-size:clamp(62px,17vw,92px)}.hero:after{bottom:4%;right:4%;padding:9px 11px}.intro{padding:65px 16px}.categories a{box-shadow:4px 4px 0 #171416}.product-card:nth-child(3n+1) .product-image,.product-card:nth-child(3n+2) .product-image,.product-card:nth-child(3n) .product-image{box-shadow:4px 4px 0 var(--pop-lilac)}.banner h2{font-size:clamp(42px,12vw,62px)}}
+
+/* WAQAR AL ANABI brand palette replaces temporary neon accents */
+:root{--pop-lime:#C5A46D;--pop-lilac:#E9DFD2;--pop-orange:#7A1E3A;--wine:#7A1E3A;--cream:#F7F3ED;--ink:#242424}
+.announcement{background:#7A1E3A;color:#FFFFFF}
+.brand img{background:#C5A46D}
+.hero:after{background:#C5A46D;color:#242424}
+.hero>div>small{background:#E9DFD2;color:#242424}
+.hero h1 em{background:#C5A46D;color:#242424}
+.hero .btn{box-shadow:5px 5px 0 #7A1E3A}
+.hero .btn:hover{background:#7A1E3A;box-shadow:2px 2px 0 #C5A46D}
+.intro{background:#E9DFD2}
+.categories a:hover{box-shadow:11px 11px 0 #C5A46D}
+.categories a+a:hover{box-shadow:11px 11px 0 #7A1E3A}
+.products>small{background:#7A1E3A;color:#FFFFFF}
+.filters button.active,.filters button:hover{background:#C5A46D;color:#242424}
+.product-card:nth-child(3n+1) .product-image{box-shadow:6px 6px 0 #E9DFD2}
+.product-card:nth-child(3n+2) .product-image{box-shadow:6px 6px 0 #C5A46D}
+.product-card:nth-child(3n) .product-image{box-shadow:6px 6px 0 #7A1E3A}
+.product-image button{background:#C5A46D;color:#242424}
+.banner{background:#7A1E3A;color:#FFFFFF}
+.banner h2 em{color:#F7F3ED;text-shadow:3px 3px 0 #242424}
+.story{background:#E9DFD2}
+.story>div{box-shadow:7px 7px 0 #C5A46D}
+footer{border-top:5px solid #C5A46D}
+footer h4{color:#C5A46D}
+.actions button{box-shadow:2px 2px 0 #C5A46D}
+.actions b{background:#7A1E3A;color:#FFFFFF}
+@media(max-width:560px){.product-card:nth-child(3n+1) .product-image,.product-card:nth-child(3n+2) .product-image,.product-card:nth-child(3n) .product-image{box-shadow:4px 4px 0 #E9DFD2}}
