@@ -2256,3 +2256,18 @@ body[data-theme="dark"] #welcome #countryStatus {
     letter-spacing: .06em;
   }
 }
+
+
+/* STORY SECTION CONTRAST: readable eyebrow and signature gold headline accent */
+#store .story small {
+  color: #FFFFFF !important;
+}
+#store .story h2 em {
+  color: #C5A46D !important;
+}
+body[data-theme="dark"] #store .story small {
+  color: #FFFFFF !important;
+}
+body[data-theme="dark"] #store .story h2 em {
+  color: #C5A46D !important;
+}
