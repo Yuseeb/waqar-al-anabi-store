@@ -2967,3 +2967,15 @@ body[data-theme="dark"] .favorite-card-button.is-favorite {
   .favorite-card-button { left:9px; bottom:10px; min-height:38px; padding:0 10px; }
   .favorite-card-button em { font-size:8px; }
 }
+
+
+/* Keep favourite button labels readable in light mode */
+body:not([data-theme="dark"]) .favorite-card-button,
+body:not([data-theme="dark"]) .favorite-card-button.is-favorite,
+body:not([data-theme="dark"]) .favorite-card-button em {
+  color:#FFFFFF;
+}
+body:not([data-theme="dark"]) .favorite-card-button.is-favorite {
+  background:#7A1E3A;
+  border-color:#211B1E;
+}
