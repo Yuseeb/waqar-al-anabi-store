@@ -2794,3 +2794,176 @@ body[data-theme="dark"] .product-gallery-frame {
   .lightbox-next { right:8px; }
   .lightbox-arrow { width:38px; height:38px; }
 }
+
+
+/* Favourites: save controls and right-side drawer */
+#favoritesOpen {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-width:54px;
+}
+#favoritesOpen b {
+  display:inline-grid;
+  place-items:center;
+  min-width:20px;
+  height:20px;
+  padding:0 5px;
+  border-radius:50%;
+  background:#7A1E3A;
+  color:#FFFFFF;
+  font-size:10px;
+}
+.favorite-card-button {
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:42px;
+  padding:0 13px;
+  border:2px solid #211B1E;
+  background:#7A1E3A;
+  color:#FFFFFF;
+  box-shadow:5px 5px 0 #211B1E;
+  cursor:pointer;
+  z-index:2;
+  transition:background .2s ease, transform .2s ease;
+}
+.favorite-card-button:hover { background:#5E172D; transform:translateY(-2px); }
+.favorite-card-button span { font-size:22px; line-height:1; }
+.favorite-card-button em {
+  font-size:9px;
+  font-style:normal;
+  font-weight:800;
+  letter-spacing:.08em;
+}
+.favorite-card-button.is-favorite {
+  background:#F7F3ED;
+  color:#7A1E3A;
+  border-color:#7A1E3A;
+}
+#favorites {
+  position:fixed;
+  right:0;
+  top:0;
+  bottom:0;
+  width:min(410px,100%);
+  z-index:31;
+  padding:28px 24px;
+  overflow-y:auto;
+  background:#F7F3ED;
+  color:#242424;
+  transform:translateX(105%);
+  transition:transform .32s ease, box-shadow .32s ease;
+  box-shadow:0 0 0 100vmax #0000;
+}
+#favorites.open {
+  transform:translateX(0);
+  box-shadow:0 0 0 100vmax #0007;
+}
+#favoritesClose {
+  float:right;
+  border:0;
+  background:transparent;
+  color:inherit;
+  font-size:30px;
+  cursor:pointer;
+}
+.favorites-eyebrow {
+  margin:30px 0 8px;
+  color:#7A1E3A;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.18em;
+}
+#favorites h2 {
+  margin:0 0 28px;
+  font:600 36px "Cormorant Garamond",serif;
+  text-transform:uppercase;
+}
+#favorites h2 span { color:#7A1E3A; font-family:Arial,sans-serif; }
+.favorite-item {
+  display:grid;
+  grid-template-columns:92px 1fr;
+  gap:15px;
+  padding:14px 0;
+  border-top:1px solid #D9CEC5;
+}
+.favorite-item-image {
+  width:92px;
+  height:112px;
+  padding:0;
+  overflow:hidden;
+  border:1px solid #211B1E;
+  background:#7A1E3A;
+  cursor:pointer;
+}
+.favorite-item-image img { width:100%; height:100%; object-fit:cover; display:block; }
+.favorite-item-info {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:7px;
+}
+.favorite-item-name {
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#242424;
+  font-size:12px;
+  font-weight:800;
+  text-align:left;
+  cursor:pointer;
+}
+.favorite-item-info > span { color:#7A1E3A; font-size:12px; font-weight:700; }
+.favorite-remove {
+  margin-top:auto;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#7A1E3A;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+  cursor:pointer;
+}
+.favorites-empty {
+  padding:28px 0;
+  color:#756D6D;
+  font-size:13px;
+  line-height:1.8;
+}
+.favorites-footer {
+  margin-top:35px;
+  padding-top:18px;
+  border-top:1px solid #D9CEC5;
+  color:#7A1E3A;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+body[data-theme="dark"] #favorites {
+  background:#211B1E;
+  color:#F7F3ED;
+}
+body[data-theme="dark"] .favorites-eyebrow,
+body[data-theme="dark"] #favorites h2 span,
+body[data-theme="dark"] .favorite-item-info > span,
+body[data-theme="dark"] .favorite-remove,
+body[data-theme="dark"] .favorites-footer { color:#C5A46D; }
+body[data-theme="dark"] .favorite-item { border-color:#51454A; }
+body[data-theme="dark"] .favorite-item-name { color:#F7F3ED; }
+body[data-theme="dark"] .favorites-empty { color:#D4CBCD; }
+body[data-theme="dark"] .favorite-card-button.is-favorite {
+  background:#211B1E;
+  color:#C5A46D;
+  border-color:#C5A46D;
+}
+@media(max-width:800px) {
+  #favoritesOpen { min-width:38px; padding:0 7px; }
+  .favorite-card-button { left:9px; bottom:10px; min-height:38px; padding:0 10px; }
+  .favorite-card-button em { font-size:8px; }
+}
