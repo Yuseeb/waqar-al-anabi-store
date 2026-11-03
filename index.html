@@ -8,7 +8,7 @@
       WAQAR AL ANABI
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261103-23">
+    <link rel="stylesheet" href="styles.css?v=20261103-25">
   </head>
   <body>
     <section id="splash" class="splash">
@@ -111,10 +111,10 @@
           <a href="#home">
             Home
           </a>
-          <a href="#men">
+          <a href="#for-him">
             Men
           </a>
-          <a href="#women">
+          <a href="#for-her">
             Women
           </a>
           <a href="#products">
@@ -177,7 +177,7 @@
           </p>
         </section>
         <section class="categories">
-          <a id="men" data-filter="Men" href="#products">
+          <a id="men" data-filter="Men" href="#for-him">
             <small>
               THE COLLECTION
             </small>
@@ -186,7 +186,7 @@
             </h2>
             SHOP MEN ↗
           </a>
-          <a id="women" data-filter="Women" href="#products">
+          <a id="women" data-filter="Women" href="#for-her">
             <small>
               THE COLLECTION
             </small>
@@ -251,7 +251,17 @@
             </p>
           </article>
         </section>
-      </main>
+      
+        <section id="collectionPage" class="collection-page hidden">
+          <a class="collection-back" href="#home">← BACK TO HOME</a>
+          <div class="collection-heading">
+            <small id="collectionEyebrow">THE WAQAR AL ANABI COLLECTION</small>
+            <h1 id="collectionTitle">For Him</h1>
+            <p id="collectionDescription">Everyday essentials, considered details, and effortless confidence.</p>
+          </div>
+          <div id="collectionGrid" class="collection-grid"></div>
+        </section>
+</main>
       <aside id="bag">
         <button id="close">
           ×
@@ -316,7 +326,7 @@
         </p>
       </footer>
     </div>
-    <script src="script.js?v=20261103-7">
+    <script src="script.js?v=20261103-9">
     </script>
   </body>
 </html>
