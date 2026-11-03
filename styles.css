@@ -1887,3 +1887,30 @@ footer h4
 }
 
 
+
+
+/* NAVIGATION: burgundy on hover, keyboard focus, and selected link */
+#store header nav a {
+  color: #242424;
+  transition: color .18s ease;
+}
+#store header nav a:hover,
+#store header nav a:focus-visible,
+#store header nav a.active {
+  color: #7A1E3A !important;
+}
+#store header nav a.active {
+  font-weight: 900;
+}
+@media (max-width: 800px) {
+  #store header nav a {
+    display: block;
+    width: fit-content;
+    padding: 12px 0;
+  }
+  #store header nav a:hover,
+  #store header nav a:focus-visible,
+  #store header nav a.active {
+    color: #7A1E3A !important;
+  }
+}
