@@ -132,6 +132,10 @@
               PK / PKR
             </span>
           </button>
+          <button id="favoritesOpen" type="button" aria-label="Open favourites" title="Favourites">
+            ♡
+            <b id="favoriteCount">0</b>
+          </button>
           <button id="cartOpen">
             Bag
             <b id="count">
@@ -286,6 +290,13 @@
           ORDER VIA WHATSAPP
         </button>
       </aside>
+      <aside id="favorites" aria-label="Your favourites">
+        <button id="favoritesClose" type="button" aria-label="Close favourites">×</button>
+        <p class="favorites-eyebrow">YOUR EDIT, YOUR FAVOURITES</p>
+        <h2>Saved Pieces <span>♥</span></h2>
+        <div id="favoriteItems"></div>
+        <p class="favorites-footer">PEOPLE NOT TRENDS. — WAQAR AL ANABI</p>
+      </aside>
       <footer>
         <div>
           <img src="assets/wa-monogram.svg?v=white1">
@@ -332,7 +343,7 @@
         </p>
       </footer>
     </div>
-    <script src="script.js?v=20261103-16">
+    <script src="script.js?v=20261103-17">
     </script>
   </body>
 </html>
