@@ -2504,3 +2504,121 @@ body[data-theme="dark"] .product-detail-image {
   .product-detail-info { padding: 5px 0 20px; }
   .product-detail-info h1 { font-size: 42px; }
 }
+
+
+/* Editable size and fabric information on product detail pages */
+.product-fit-block,
+.product-size-block,
+.fabric-details { margin: 22px 0; }
+.detail-label {
+  display: block;
+  color: #7A1E3A;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  margin-bottom: 10px;
+}
+.product-fit-block p,
+.fabric-details p {
+  margin: 7px 0;
+  color: var(--text-muted, #756D6D);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.fabric-details strong { color: var(--text-main, #242424); }
+.size-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.size-guide-toggle {
+  border:0;
+  background:transparent;
+  color:#7A1E3A;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.12em;
+  cursor:pointer;
+}
+.size-options { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; }
+.size-option {
+  width:48px;
+  height:44px;
+  border:1px solid #CFC5BC;
+  background:transparent;
+  color:var(--text-main,#242424);
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+.size-option:hover,.size-option.selected {
+  border-color:#7A1E3A;
+  background:#7A1E3A;
+  color:#FFFFFF;
+}
+.size-selection-hint {
+  margin:9px 0 0;
+  color:var(--text-muted,#756D6D);
+  font-size:11px;
+}
+.size-guide-panel {
+  margin:18px 0;
+  padding:16px;
+  border:1px solid #D9CEC5;
+  background:rgba(197,164,109,.08);
+}
+.size-guide-title {
+  margin:0 0 12px;
+  color:var(--text-main,#242424);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.12em;
+}
+.size-guide-title span { color:var(--text-muted,#756D6D); font-weight:500; }
+.size-table-wrap { overflow-x:auto; }
+.size-guide-table { width:100%; border-collapse:collapse; font-size:11px; white-space:nowrap; }
+.size-guide-table th {
+  padding:9px 7px;
+  color:#7A1E3A;
+  text-align:left;
+  border-bottom:1px solid #C5A46D;
+  font-size:9px;
+}
+.size-guide-table td {
+  padding:9px 7px;
+  color:var(--text-main,#242424);
+  border-bottom:1px solid rgba(120,100,90,.18);
+}
+.size-guide-panel > small {
+  display:block;
+  margin-top:12px;
+  color:var(--text-muted,#756D6D);
+  font-size:10px;
+  line-height:1.5;
+}
+.product-detail-add:disabled {
+  opacity:.55;
+  cursor:not-allowed;
+  box-shadow:none;
+}
+body[data-theme="dark"] .detail-label,
+body[data-theme="dark"] .size-guide-toggle { color:#C5A46D; }
+body[data-theme="dark"] .product-fit-block p,
+body[data-theme="dark"] .fabric-details p,
+body[data-theme="dark"] .size-selection-hint { color:#D4CBCD; }
+body[data-theme="dark"] .fabric-details strong,
+body[data-theme="dark"] .size-guide-title,
+body[data-theme="dark"] .size-guide-table td { color:#F7F3ED; }
+body[data-theme="dark"] .size-option {
+  border-color:#65575D;
+  color:#F7F3ED;
+}
+body[data-theme="dark"] .size-option:hover,
+body[data-theme="dark"] .size-option.selected {
+  background:#7A1E3A;
+  border-color:#C5A46D;
+  color:#FFFFFF;
+}
+body[data-theme="dark"] .size-guide-panel {
+  border-color:#65575D;
+  background:rgba(197,164,109,.07);
+}
+body[data-theme="dark"] .size-guide-table th { color:#C5A46D; }
+body[data-theme="dark"] .size-guide-table td { border-color:#40363A; }
