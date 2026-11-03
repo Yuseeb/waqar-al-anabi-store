@@ -255,18 +255,59 @@ $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is 
   const menu=header.querySelector(".menu-toggle");
   const favorites=actions.querySelector("#favoritesOpen");
   const bag=actions.querySelector("#cartOpen");
+  const home=bottom.querySelector(".mobile-nav-home");
+  const search=bottom.querySelector(".mobile-search-open");
   const mobile=window.matchMedia("(max-width: 800px)");
   function placeControls(){
     if(mobile.matches){
-      bottom.append(menu,favorites,bag);
+      bottom.append(home,menu,search,favorites,bag);
     }else{
       header.insertBefore(menu,brand);
       actions.append(favorites,bag);
+      bottom.append(home,search);
     }
   }
   placeControls();
   if(mobile.addEventListener)mobile.addEventListener("change",placeControls);
   else mobile.addListener(placeControls);
+})();
+
+// Mobile bottom-bar product search.
+(function setupMobileSearch(){
+  const panel=$("mobileSearch");
+  const input=$("mobileSearchInput");
+  const results=$("mobileSearchResults");
+  const openButton=document.querySelector(".mobile-search-open");
+  const closeButton=$("mobileSearchClose");
+  function showResults(){
+    const query=input.value.trim().toLowerCase();
+    const matches=query?products.filter(p=>(p.name+" "+p.cat+" "+(p.fabricComposition||"")).toLowerCase().includes(query)):products;
+    results.innerHTML=matches.length?matches.map(p=>'<button type="button" class="mobile-search-result" data-search-product="'+p.id+'"><img src="'+p.img+'" alt=""><span><strong>'+p.name+'</strong><small>'+money(p.price)+'</small></span><b>↗</b></button>').join(""):'<p>No matching pieces found. Try another search.</p>';
+  }
+  function openSearch(){
+    panel.classList.add("open");
+    panel.setAttribute("aria-hidden","false");
+    document.body.classList.add("mobile-search-open");
+    showResults();
+    setTimeout(()=>input.focus(),50);
+  }
+  function closeSearch(){
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden","true");
+    document.body.classList.remove("mobile-search-open");
+  }
+  openButton.addEventListener("click",openSearch);
+  closeButton.addEventListener("click",closeSearch);
+  input.addEventListener("input",showResults);
+  results.addEventListener("click",event=>{
+    const result=event.target.closest("[data-search-product]");
+    if(!result)return;
+    closeSearch();
+    openProduct(result.dataset.searchProduct);
+  });
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape"&&panel.classList.contains("open"))closeSearch();
+  });
 })();
 $("year").textContent=new Date().getFullYear();chooseCountry(localStorage.getItem("wa-country")||"PK");render();updateBag();updateFavorites();
 setTimeout(()=>{const splash=$("splash");splash.classList.add("fade");setTimeout(()=>{splash.classList.add("hidden");openWelcome()},650)},1800);
