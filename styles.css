@@ -2226,3 +2226,33 @@ body[data-theme="dark"] #welcome #countryStatus {
     letter-spacing: .1em;
   }
 }
+
+
+/* MOBILE FIX: keep the country dropdown arrow inside its field */
+@media (max-width: 560px) {
+  #welcome .selectbox {
+    width: 100%;
+    min-width: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 7px;
+    overflow: hidden;
+  }
+  #welcome .selectbox select {
+    flex: 1 1 0;
+    min-width: 0;
+    width: 0;
+    font-size: 13px;
+  }
+  #welcome .selectbox > b {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0 2px;
+  }
+  #welcome #countryStatus {
+    flex: 0 0 auto;
+    margin-left: auto;
+    font-size: 6px;
+    letter-spacing: .06em;
+  }
+}
