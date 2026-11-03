@@ -27,10 +27,14 @@ function enterStore(){localStorage.setItem("wa-country",country);localStorage.se
 countrySelect.addEventListener("change",e=>chooseCountry(e.target.value));$("start").addEventListener("click",enterStore);$("change").addEventListener("click",openWelcome);
 const products=[{id:1,name:"Classic Polo Shirt",cat:"Men",price:3490,img:"https://images.unsplash.com/photo-1625910513413-5fc3f3b1f1b9?auto=format&fit=crop&w=800&q=85"},{id:2,name:"Everyday Boxy Tee",cat:"Women",price:2490,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=85"},{id:3,name:"Relaxed Sweatshirt",cat:"Men",price:4290,img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=85"},{id:4,name:"Wide-Leg Trousers",cat:"Women",price:3990,img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=85"},{id:5,name:"Modern Co-Ord Set",cat:"Women",price:5990,img:"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=85"},{id:6,name:"Pleated Relaxed Pants",cat:"Men",price:4490,img:"https://images.unsplash.com/photo-1511196044526-5cb3bcbc707b?auto=format&fit=crop&w=800&q=85"}];
 const money=n=>{try{return new Intl.NumberFormat("en",{style:"currency",currency,maximumFractionDigits:0}).format(n)}catch{return currency+" "+Math.round(n).toLocaleString("en")}};
-function render(){const grid=$("grid");grid.innerHTML=products.filter(p=>filter==="All"||p.cat===filter).map(p=>'<article class="product-card"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" data-add="'+p.id+'">QUICK ADD +</button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>').join("")||'<p>No products found in this collection yet.</p>';grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}))}
+function productCard(p){return '<article class="product-card" data-product-id="'+p.id+'" role="link" tabindex="0" aria-label="View details for '+p.name+'"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" data-add="'+p.id+'">QUICK ADD +</button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>'}
+function render(){const grid=$("grid");grid.innerHTML=products.filter(p=>filter==="All"||p.cat===filter).map(productCard).join("")||'<p>No products found in this collection yet.</p>';grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}))}
 function updateBag(){$("count").textContent=cart.reduce((a,p)=>a+p.qty,0);$("subtotal").textContent=money(cart.reduce((a,p)=>a+p.price*p.qty,0));$("items").innerHTML=cart.map(p=>'<p>'+p.name+' × '+p.qty+' — '+money(p.price*p.qty)+' <button type="button" data-remove="'+p.id+'">Remove</button></p>').join("")||"Your bag is empty."}
-$("grid").addEventListener("click",e=>{const id=Number(e.target.dataset.add);if(!id)return;const p=products.find(x=>x.id===id);if(!p)return;const existing=cart.find(x=>x.id===id);existing?existing.qty++:cart.push({...p,qty:1});updateBag();$("bag").classList.add("open")});
-$("collectionGrid").addEventListener("click",e=>{const id=Number(e.target.dataset.add);if(!id)return;const p=products.find(x=>x.id===id);if(!p)return;const existing=cart.find(x=>x.id===id);existing?existing.qty++:cart.push({...p,qty:1});updateBag();$("bag").classList.add("open")});
+$("grid").addEventListener("click",e=>{if(e.target.closest("[data-add]")){addProductToBag(e.target.closest("[data-add]").dataset.add);return}handleProductCardClick(e)});
+$("grid").addEventListener("keydown",handleProductCardKeydown);
+$("collectionGrid").addEventListener("click",e=>{if(e.target.closest("[data-add]")){addProductToBag(e.target.closest("[data-add]").dataset.add);return}handleProductCardClick(e)});
+$("collectionGrid").addEventListener("keydown",handleProductCardKeydown);
+$("productDetailContent").addEventListener("click",e=>{const button=e.target.closest("[data-detail-add]");if(button)addProductToBag(button.dataset.detailAdd)});
 $("items").addEventListener("click",e=>{const id=Number(e.target.dataset.remove);if(id){cart=cart.filter(p=>p.id!==id);updateBag()}});
 $("cartOpen").addEventListener("click",()=>$("bag").classList.add("open"));$("close").addEventListener("click",()=>$("bag").classList.remove("open"));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("nav").classList.remove("open")}});
@@ -42,27 +46,79 @@ function renderCollection(category){
   $("collectionDescription").textContent = category === "Women"
     ? "Thoughtful silhouettes, effortless fits, and everyday pieces made to feel like you."
     : "Refined essentials, relaxed fits, and considered details for everyday confidence.";
-  $("collectionGrid").innerHTML = products.filter(p=>p.cat===category).map(p=>'<article class="product-card"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" data-add="'+p.id+'">QUICK ADD +</button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>').join("") || '<p class="empty-collection">New pieces are coming soon.</p>';
+  $("collectionGrid").innerHTML = products.filter(p=>p.cat===category).map(productCard).join("") || '<p class="empty-collection">New pieces are coming soon.</p>';
   $("collectionGrid").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#7A1E3A,#49202E)"},{once:true}));
+}
+
+function renderProductDetail(product){
+  const isWomen = product.cat === "Women";
+  $("productBack").href = isWomen ? "#for-her" : "#for-him";
+  $("productDetailContent").innerHTML =
+    '<div class="product-detail-image"><img src="'+product.img+'" alt="'+product.name+'"></div>'+
+    '<div class="product-detail-info">'+
+      '<small class="product-detail-kicker">'+(isWomen ? "THE WOMEN'S COLLECTION" : "THE MEN'S COLLECTION")+'</small>'+
+      '<h1>'+product.name+'</h1>'+
+      '<p class="product-detail-price">'+money(product.price)+'</p>'+
+      '<div class="product-detail-rule"></div>'+
+      '<p class="product-detail-description">'+(isWomen ? "Thoughtful design, effortless styling, and considered details. A versatile addition to your everyday wardrobe." : "A refined everyday essential, designed with an effortless fit and considered details. Made to become part of your everyday rotation.")+'</p>'+
+      '<p class="product-detail-note">PEOPLE NOT TRENDS. — WAQAR AL ANABI</p>'+
+      '<button type="button" class="product-detail-add" data-detail-add="'+product.id+'">ADD TO BAG <span>↗</span></button>'+
+      '<p class="product-detail-shipping">Prices displayed in PKR. More product information coming soon.</p>'+
+    '</div>';
+  const image=$("productDetailContent").querySelector("img");
+  image.addEventListener("error",()=>{image.style.display="none";image.parentElement.style.background="linear-gradient(135deg,#7A1E3A,#49202E)"},{once:true});
+}
+function openProduct(productId){
+  const product=products.find(p=>p.id===Number(productId));
+  if(!product)return;
+  location.hash="#product-"+product.id;
+}
+function addProductToBag(productId){
+  const p=products.find(x=>x.id===Number(productId));
+  if(!p)return;
+  const existing=cart.find(x=>x.id===p.id);
+  existing?existing.qty++:cart.push({...p,qty:1});
+  updateBag();
+  $("bag").classList.add("open");
+}
+function handleProductCardClick(event){
+  if(event.target.closest("[data-add]"))return;
+  const card=event.target.closest("[data-product-id]");
+  if(card)openProduct(card.dataset.productId);
+}
+function handleProductCardKeydown(event){
+  if((event.key==="Enter"||event.key===" ") && event.target.matches("[data-product-id]")){
+    event.preventDefault();
+    openProduct(event.target.dataset.productId);
+  }
 }
 function routePage(){
   const route = location.hash.toLowerCase();
   const isCollection = route === "#for-him" || route === "#for-her";
-  const homeSections = document.querySelectorAll("#store main > section:not(#collectionPage)");
-  homeSections.forEach(section => {
-    section.style.display = isCollection ? "none" : "";
-    section.classList.toggle("hidden", isCollection);
+  const productMatch = route.match(/^#product-(\\d+)$/);
+  const product = productMatch ? products.find(p=>p.id===Number(productMatch[1])) : null;
+  const isProduct = Boolean(product);
+  const showHome = !isCollection && !isProduct;
+  document.querySelectorAll("#store main > section:not(#collectionPage):not(#productPage)").forEach(section=>{
+    section.style.display = showHome ? "" : "none";
+    section.classList.toggle("hidden", !showHome);
   });
-  const collectionPage = $("collectionPage");
-  collectionPage.style.display = isCollection ? "block" : "none";
-  collectionPage.classList.toggle("hidden", !isCollection);
-  const storeFooter = document.querySelector("#store > footer");
-  if (storeFooter) storeFooter.style.display = isCollection ? "none" : "";
+  const collectionPage=$("collectionPage");
+  collectionPage.style.display=isCollection?"block":"none";
+  collectionPage.classList.toggle("hidden",!isCollection);
+  const productPage=$("productPage");
+  productPage.style.display=isProduct?"block":"none";
+  productPage.classList.toggle("hidden",!isProduct);
+  const storeFooter=document.querySelector("#store > footer");
+  if(storeFooter)storeFooter.style.display=(isCollection||isProduct)?"none":"";
   if(isCollection){
-    renderCollection(route === "#for-her" ? "Women" : "Men");
+    renderCollection(route==="#for-her"?"Women":"Men");
     window.scrollTo({top:0,behavior:"instant"});
-  } else {
-    if(route === "#home" || route === "") window.scrollTo({top:0,behavior:"instant"});
+  }else if(isProduct){
+    renderProductDetail(product);
+    window.scrollTo({top:0,behavior:"instant"});
+  }else if(route==="#home"||route===""){
+    window.scrollTo({top:0,behavior:"instant"});
   }
 }
 window.addEventListener("hashchange",routePage);
