@@ -78,11 +78,11 @@ $("favoriteItems").addEventListener("click",e=>{
   if(remove){toggleFavorite(remove.dataset.removeFavorite);return}
   if(view){$("favorites").classList.remove("open");openProduct(view.dataset.viewFavorite)}
 });
-$("favoritesOpen").addEventListener("click",()=>$("favorites").classList.add("open"));
-$("favoritesClose").addEventListener("click",()=>$("favorites").classList.remove("open"));
+$("favoritesOpen").addEventListener("click",()=>{$("favorites").classList.add("open");setMobileNavActive(mobileFavorites)});
+$("favoritesClose").addEventListener("click",()=>{$("favorites").classList.remove("open");setMobileNavActive(mobileHome)});
 
-$("cartOpen").addEventListener("click",()=>$("bag").classList.add("open"));$("close").addEventListener("click",()=>$("bag").classList.remove("open"));
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("favorites").classList.remove("open");$("nav").classList.remove("open")}});
+$("cartOpen").addEventListener("click",()=>{$("bag").classList.add("open");setMobileNavActive(mobileBag)});$("close").addEventListener("click",()=>{$("bag").classList.remove("open");setMobileNavActive(mobileHome)});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("favorites").classList.remove("open");$("nav").classList.remove("open");setMobileNavActive(mobileHome)}});
 document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.cat;document.querySelectorAll(".filters button").forEach(x=>x.classList.toggle("active",x===b));render()}));
 function renderCollection(category){
   const title = category === "Women" ? "For Her" : "For Him";
@@ -242,7 +242,25 @@ document.querySelector(".collection-back").addEventListener("click",event=>{
   routePage();
 });
 
-document.querySelector(".menu-toggle").addEventListener("click",()=>$("nav").classList.toggle("open"));document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
+function setMobileNavActive(activeItem){
+  if(!window.matchMedia("(max-width: 800px)").matches)return;
+  document.querySelectorAll("#store .mobile-bottom-bar > a, #store .mobile-bottom-bar > button").forEach(item=>{
+    const selected=item===activeItem;
+    item.classList.toggle("active",selected);
+    if(selected)item.setAttribute("aria-current","page");
+    else item.removeAttribute("aria-current");
+  });
+}
+const mobileHome=document.querySelector(".mobile-nav-home");
+const mobileMenu=document.querySelector(".mobile-bottom-bar .menu-toggle");
+const mobileSearchButton=document.querySelector(".mobile-search-open");
+const mobileFavorites=document.querySelector("#favoritesOpen");
+const mobileBag=document.querySelector("#cartOpen");
+if(window.matchMedia("(max-width: 800px)").matches)setMobileNavActive(mobileHome);
+document.querySelector(".menu-toggle").addEventListener("click",()=>{
+  $("nav").classList.toggle("open");
+  setMobileNavActive($("nav").classList.contains("open")?mobileMenu:mobileHome);
+});document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
 $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" (Size: "+(p.selectedSize||"Not selected")+") x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
 
 // Move the same navigation controls between header and bottom bar by viewport.
@@ -296,17 +314,18 @@ $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is 
     panel.setAttribute("aria-hidden","true");
     document.body.classList.remove("mobile-search-open");
   }
-  openButton.addEventListener("click",openSearch);
-  closeButton.addEventListener("click",closeSearch);
+  openButton.addEventListener("click",()=>{openSearch();setMobileNavActive(mobileSearchButton)});
+  closeButton.addEventListener("click",()=>{closeSearch();setMobileNavActive(mobileHome)});
   input.addEventListener("input",showResults);
   results.addEventListener("click",event=>{
     const result=event.target.closest("[data-search-product]");
     if(!result)return;
     closeSearch();
+    setMobileNavActive(mobileHome);
     openProduct(result.dataset.searchProduct);
   });
   document.addEventListener("keydown",event=>{
-    if(event.key==="Escape"&&panel.classList.contains("open"))closeSearch();
+    if(event.key==="Escape"&&panel.classList.contains("open")){closeSearch();setMobileNavActive(mobileHome)}
   });
 })();
 $("year").textContent=new Date().getFullYear();chooseCountry(localStorage.getItem("wa-country")||"PK");render();updateBag();updateFavorites();
