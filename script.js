@@ -244,5 +244,29 @@ document.querySelector(".collection-back").addEventListener("click",event=>{
 
 document.querySelector(".menu-toggle").addEventListener("click",()=>$("nav").classList.toggle("open"));document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
 $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" (Size: "+(p.selectedSize||"Not selected")+") x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
+
+// Move the same navigation controls between header and bottom bar by viewport.
+// Desktop keeps the original top navigation; only phones use the bottom bar.
+(function setupResponsiveNavigation(){
+  const header=document.querySelector("#store header");
+  const brand=header.querySelector(".brand");
+  const actions=header.querySelector(".actions");
+  const bottom=document.querySelector("#store .mobile-bottom-bar");
+  const menu=header.querySelector(".menu-toggle");
+  const favorites=actions.querySelector("#favoritesOpen");
+  const bag=actions.querySelector("#cartOpen");
+  const mobile=window.matchMedia("(max-width: 800px)");
+  function placeControls(){
+    if(mobile.matches){
+      bottom.append(menu,favorites,bag);
+    }else{
+      header.insertBefore(menu,brand);
+      actions.append(favorites,bag);
+    }
+  }
+  placeControls();
+  if(mobile.addEventListener)mobile.addEventListener("change",placeControls);
+  else mobile.addListener(placeControls);
+})();
 $("year").textContent=new Date().getFullYear();chooseCountry(localStorage.getItem("wa-country")||"PK");render();updateBag();updateFavorites();
 setTimeout(()=>{const splash=$("splash");splash.classList.add("fade");setTimeout(()=>{splash.classList.add("hidden");openWelcome()},650)},1800);
