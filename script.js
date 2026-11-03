@@ -48,16 +48,21 @@ function renderCollection(category){
 function routePage(){
   const route = location.hash.toLowerCase();
   const isCollection = route === "#for-him" || route === "#for-her";
-  document.querySelectorAll("#store main > section").forEach(section=>{
-    section.classList.toggle("hidden", isCollection && section.id !== "collectionPage");
+  const homeSections = document.querySelectorAll("#store main > section:not(#collectionPage)");
+  homeSections.forEach(section => {
+    section.style.display = isCollection ? "none" : "";
+    section.classList.toggle("hidden", isCollection);
   });
+  const collectionPage = $("collectionPage");
+  collectionPage.style.display = isCollection ? "block" : "none";
+  collectionPage.classList.toggle("hidden", !isCollection);
+  const storeFooter = document.querySelector("#store > footer");
+  if (storeFooter) storeFooter.style.display = isCollection ? "none" : "";
   if(isCollection){
     renderCollection(route === "#for-her" ? "Women" : "Men");
-    window.scrollTo(0,0);
+    window.scrollTo({top:0,behavior:"instant"});
   } else {
-    $("collectionPage").classList.add("hidden");
-    document.querySelectorAll("#store main > section").forEach(section=>section.classList.remove("hidden"));
-    if(route === "#home" || route === "") window.scrollTo(0,0);
+    if(route === "#home" || route === "") window.scrollTo({top:0,behavior:"instant"});
   }
 }
 window.addEventListener("hashchange",routePage);
