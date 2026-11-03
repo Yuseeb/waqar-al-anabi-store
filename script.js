@@ -59,11 +59,15 @@ function renderCollection(category){
 
 function renderProductDetail(product){
   const isWomen = product.cat === "Women";
+  const galleryImages = product.galleryImages && product.galleryImages.length ? product.galleryImages : [product.img];
+  let activeImageIndex = 0;
   $("productBack").href = isWomen ? "#for-her" : "#for-him";
   const sizeRows=(product.sizeGuide||[]).map(row=>'<tr><td>'+row.size+'</td><td>'+row.chest+'</td><td>'+row.length+'</td><td>'+row.waist+'</td><td>'+row.hip+'</td></tr>').join("");
   const sizes=(product.sizes||["S","M","L","XL"]).map(size=>'<button type="button" class="size-option" data-size="'+size+'" aria-pressed="false">'+size+'</button>').join("");
+  const thumbs = galleryImages.length > 1 ? '<div class="product-gallery-thumbnails">'+galleryImages.map((src,index)=>'<button type="button" class="gallery-thumb '+(index===0?'active':'')+'" data-gallery-index="'+index+'" aria-label="Show product photo '+(index+1)+'"><img src="'+src+'" alt=""></button>').join("")+'</div>' : "";
+  const arrows = galleryImages.length > 1 ? '<button type="button" class="gallery-arrow gallery-prev" aria-label="Previous photo">‹</button><button type="button" class="gallery-arrow gallery-next" aria-label="Next photo">›</button><span class="gallery-count">1 / '+galleryImages.length+'</span>' : '<span class="gallery-zoom-hint">CLICK TO ZOOM</span>';
   $("productDetailContent").innerHTML =
-    '<div class="product-detail-image"><img src="'+product.img+'" alt="'+product.name+'"></div>'+
+    '<div class="product-gallery-column"><div class="product-detail-image product-gallery-frame"><img id="productGalleryImage" src="'+galleryImages[0]+'" alt="'+product.name+' — photo 1" tabindex="0" role="button" aria-label="Zoom product photo"><button type="button" class="gallery-zoom-button" aria-label="Zoom image">⌕</button>'+arrows+'</div>'+thumbs+'</div>'+
     '<div class="product-detail-info">'+
       '<small class="product-detail-kicker">'+(isWomen ? "THE WOMEN'S COLLECTION" : "THE MEN'S COLLECTION")+'</small>'+
       '<h1>'+product.name+'</h1>'+
@@ -77,7 +81,40 @@ function renderProductDetail(product){
       '<p class="product-detail-note">PEOPLE NOT TRENDS. — WAQAR AL ANABI</p>'+
       '<button type="button" class="product-detail-add" data-detail-add="'+product.id+'" disabled>SELECT A SIZE <span>↗</span></button>'+
       '<p class="product-detail-shipping">Prices displayed in PKR.</p>'+
-    '</div>';
+    '</div>'+
+    '<div class="product-image-lightbox hidden" id="productImageLightbox" role="dialog" aria-modal="true" aria-label="Product photo viewer"><button type="button" class="lightbox-close" aria-label="Close zoomed image">×</button><button type="button" class="lightbox-arrow lightbox-prev" aria-label="Previous photo">‹</button><img id="lightboxImage" src="'+galleryImages[0]+'" alt="'+product.name+' — enlarged photo"><button type="button" class="lightbox-arrow lightbox-next" aria-label="Next photo">›</button><span class="lightbox-count">1 / '+galleryImages.length+'</span></div>';
+  const mainImage=$("productGalleryImage");
+  const lightbox=$("productImageLightbox");
+  const lightboxImage=$("lightboxImage");
+  const count=lightbox.querySelector(".lightbox-count");
+  const updateGallery=()=>{
+    const src=galleryImages[activeImageIndex];
+    mainImage.src=src;
+    mainImage.alt=product.name+" — photo "+(activeImageIndex+1);
+    lightboxImage.src=src;
+    lightboxImage.alt=product.name+" — enlarged photo "+(activeImageIndex+1);
+    count.textContent=(activeImageIndex+1)+" / "+galleryImages.length;
+    $("productDetailContent").querySelectorAll("[data-gallery-index]").forEach(button=>button.classList.toggle("active",Number(button.dataset.galleryIndex)===activeImageIndex));
+  };
+  const moveGallery=(step)=>{
+    if(galleryImages.length<2)return;
+    activeImageIndex=(activeImageIndex+step+galleryImages.length)%galleryImages.length;
+    updateGallery();
+  };
+  const openZoom=()=>{lightbox.classList.remove("hidden");document.body.classList.add("gallery-zoom-open");lightbox.querySelector(".lightbox-close").focus()};
+  const closeZoom=()=>{lightbox.classList.add("hidden");document.body.classList.remove("gallery-zoom-open")};
+  mainImage.addEventListener("click",openZoom);
+  mainImage.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();openZoom()}});
+  $("productDetailContent").querySelector(".gallery-zoom-button").addEventListener("click",openZoom);
+  $("productDetailContent").querySelector(".gallery-prev")?.addEventListener("click",()=>moveGallery(-1));
+  $("productDetailContent").querySelector(".gallery-next")?.addEventListener("click",()=>moveGallery(1));
+  $("productDetailContent").querySelectorAll("[data-gallery-index]").forEach(button=>button.addEventListener("click",()=>{activeImageIndex=Number(button.dataset.galleryIndex);updateGallery()}));
+  lightbox.querySelector(".lightbox-close").addEventListener("click",closeZoom);
+  lightbox.querySelector(".lightbox-prev").addEventListener("click",()=>moveGallery(-1));
+  lightbox.querySelector(".lightbox-next").addEventListener("click",()=>moveGallery(1));
+  lightbox.addEventListener("click",event=>{if(event.target===lightbox)closeZoom()});
+  const escapeHandler=event=>{if(event.key==="Escape"&&!lightbox.classList.contains("hidden"))closeZoom();if(event.key==="ArrowLeft"&&!lightbox.classList.contains("hidden"))moveGallery(-1);if(event.key==="ArrowRight"&&!lightbox.classList.contains("hidden"))moveGallery(1)};
+  document.addEventListener("keydown",escapeHandler);
   let selectedSize="";
   const addButton=$("productDetailContent").querySelector("[data-detail-add]");
   $("productDetailContent").querySelectorAll("[data-size]").forEach(button=>button.addEventListener("click",()=>{
@@ -97,8 +134,7 @@ function renderProductDetail(product){
     panel.classList.toggle("hidden",!opening);
     $("sizeGuideToggle").textContent=opening?"SIZE GUIDE −":"SIZE GUIDE +";
   });
-  const image=$("productDetailContent").querySelector("img");
-  image.addEventListener("error",()=>{image.style.display="none";image.parentElement.style.background="linear-gradient(135deg,#7A1E3A,#49202E)"},{once:true});
+  mainImage.addEventListener("error",()=>{mainImage.style.display="none";mainImage.parentElement.style.background="linear-gradient(135deg,#7A1E3A,#49202E)"},{once:true});
 }
 function openProduct(productId){
   const product=products.find(p=>p.id===Number(productId));
