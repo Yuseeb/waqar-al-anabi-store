@@ -61,6 +61,19 @@ function routePage(){
   }
 }
 window.addEventListener("hashchange",routePage);
+document.querySelectorAll(".categories a[data-filter]").forEach(card=>{
+  card.addEventListener("click",event=>{
+    event.preventDefault();
+    const target = card.dataset.filter === "Women" ? "#for-her" : "#for-him";
+    if(location.hash === target) routePage();
+    else location.hash = target;
+  });
+});
+document.querySelector(".collection-back").addEventListener("click",event=>{
+  event.preventDefault();
+  location.hash = "#home";
+  routePage();
+});
 
 document.querySelector(".menu-toggle").addEventListener("click",()=>$("nav").classList.toggle("open"));document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
 $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
