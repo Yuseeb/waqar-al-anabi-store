@@ -25,17 +25,24 @@ function chooseCountry(code){const r=regions.PK;country="PK";currency="PKR";$("f
 function openWelcome(){$("store").classList.add("hidden");$("welcome").classList.remove("hidden");chooseCountry("PK");window.scrollTo(0,0)}
 function enterStore(){localStorage.setItem("wa-country",country);localStorage.setItem("wa-currency",currency);$("welcome").classList.add("hidden");$("store").classList.remove("hidden");$("region").textContent=country+" / "+currency;render();routePage();window.scrollTo(0,0)}
 countrySelect.addEventListener("change",e=>chooseCountry(e.target.value));$("start").addEventListener("click",enterStore);$("change").addEventListener("click",openWelcome);
-const products=[{id:1,name:"Classic Polo Shirt",cat:"Men",price:3490,img:"https://images.unsplash.com/photo-1625910513413-5fc3f3b1f1b9?auto=format&fit=crop&w=800&q=85"},{id:2,name:"Everyday Boxy Tee",cat:"Women",price:2490,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=85"},{id:3,name:"Relaxed Sweatshirt",cat:"Men",price:4290,img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=85"},{id:4,name:"Wide-Leg Trousers",cat:"Women",price:3990,img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=85"},{id:5,name:"Modern Co-Ord Set",cat:"Women",price:5990,img:"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=85"},{id:6,name:"Pleated Relaxed Pants",cat:"Men",price:4490,img:"https://images.unsplash.com/photo-1511196044526-5cb3bcbc707b?auto=format&fit=crop&w=800&q=85"}];
+const products=[
+{id:1,name:"Classic Polo Shirt",cat:"Men",price:3490,img:"https://images.unsplash.com/photo-1625910513413-5fc3f3b1f1b9?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Regular fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric weight, texture and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]},
+{id:2,name:"Everyday Boxy Tee",cat:"Women",price:2490,img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Relaxed boxy fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric weight, softness and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]},
+{id:3,name:"Relaxed Sweatshirt",cat:"Men",price:4290,img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Relaxed fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric weight, inner feel and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]},
+{id:4,name:"Wide-Leg Trousers",cat:"Women",price:3990,img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Wide-leg fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric drape, weight and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]},
+{id:5,name:"Modern Co-Ord Set",cat:"Women",price:5990,img:"https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Co-ord set — edit fit notes for top and bottom.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric texture, drape and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]},
+{id:6,name:"Pleated Relaxed Pants",cat:"Men",price:4490,img:"https://images.unsplash.com/photo-1511196044526-5cb3bcbc707b?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Relaxed pleated fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric weight, drape and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]}
+];
 const money=n=>{try{return new Intl.NumberFormat("en",{style:"currency",currency,maximumFractionDigits:0}).format(n)}catch{return currency+" "+Math.round(n).toLocaleString("en")}};
 function productCard(p){return '<article class="product-card" data-product-id="'+p.id+'" role="link" tabindex="0" aria-label="View details for '+p.name+'"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" data-add="'+p.id+'">QUICK ADD +</button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>'}
 function render(){const grid=$("grid");grid.innerHTML=products.filter(p=>filter==="All"||p.cat===filter).map(productCard).join("")||'<p>No products found in this collection yet.</p>';grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}))}
-function updateBag(){$("count").textContent=cart.reduce((a,p)=>a+p.qty,0);$("subtotal").textContent=money(cart.reduce((a,p)=>a+p.price*p.qty,0));$("items").innerHTML=cart.map(p=>'<p>'+p.name+' × '+p.qty+' — '+money(p.price*p.qty)+' <button type="button" data-remove="'+p.id+'">Remove</button></p>').join("")||"Your bag is empty."}
+function updateBag(){$("count").textContent=cart.reduce((a,p)=>a+p.qty,0);$("subtotal").textContent=money(cart.reduce((a,p)=>a+p.price*p.qty,0));$("items").innerHTML=cart.map(p=>'<p>'+p.name+' — Size: '+(p.selectedSize||"Not selected")+' × '+p.qty+' — '+money(p.price*p.qty)+' <button type="button" data-remove="'+p.id+'" data-size="'+(p.selectedSize||"Not selected")+'">Remove</button></p>').join("")||"Your bag is empty."}
 $("grid").addEventListener("click",e=>{if(e.target.closest("[data-add]")){addProductToBag(e.target.closest("[data-add]").dataset.add);return}handleProductCardClick(e)});
 $("grid").addEventListener("keydown",handleProductCardKeydown);
 $("collectionGrid").addEventListener("click",e=>{if(e.target.closest("[data-add]")){addProductToBag(e.target.closest("[data-add]").dataset.add);return}handleProductCardClick(e)});
 $("collectionGrid").addEventListener("keydown",handleProductCardKeydown);
-$("productDetailContent").addEventListener("click",e=>{const button=e.target.closest("[data-detail-add]");if(button)addProductToBag(button.dataset.detailAdd)});
-$("items").addEventListener("click",e=>{const id=Number(e.target.dataset.remove);if(id){cart=cart.filter(p=>p.id!==id);updateBag()}});
+$("productDetailContent").addEventListener("click",e=>{const button=e.target.closest("[data-detail-add]");if(button&&!button.disabled){const chosen=$("productDetailContent").querySelector(".size-option.selected");if(chosen)addProductToBag(button.dataset.detailAdd,chosen.dataset.size)}});
+$("items").addEventListener("click",e=>{const id=Number(e.target.dataset.remove);if(id){const size=e.target.dataset.size||"Not selected";cart=cart.filter(p=>!(p.id===id&&(p.selectedSize||"Not selected")===size));updateBag()}});
 $("cartOpen").addEventListener("click",()=>$("bag").classList.add("open"));$("close").addEventListener("click",()=>$("bag").classList.remove("open"));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("nav").classList.remove("open")}});
 document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.cat;document.querySelectorAll(".filters button").forEach(x=>x.classList.toggle("active",x===b));render()}));
@@ -53,6 +60,8 @@ function renderCollection(category){
 function renderProductDetail(product){
   const isWomen = product.cat === "Women";
   $("productBack").href = isWomen ? "#for-her" : "#for-him";
+  const sizeRows=(product.sizeGuide||[]).map(row=>'<tr><td>'+row.size+'</td><td>'+row.chest+'</td><td>'+row.length+'</td><td>'+row.waist+'</td><td>'+row.hip+'</td></tr>').join("");
+  const sizes=(product.sizes||["S","M","L","XL"]).map(size=>'<button type="button" class="size-option" data-size="'+size+'" aria-pressed="false">'+size+'</button>').join("");
   $("productDetailContent").innerHTML =
     '<div class="product-detail-image"><img src="'+product.img+'" alt="'+product.name+'"></div>'+
     '<div class="product-detail-info">'+
@@ -61,10 +70,33 @@ function renderProductDetail(product){
       '<p class="product-detail-price">'+money(product.price)+'</p>'+
       '<div class="product-detail-rule"></div>'+
       '<p class="product-detail-description">'+(isWomen ? "Thoughtful design, effortless styling, and considered details. A versatile addition to your everyday wardrobe." : "A refined everyday essential, designed with an effortless fit and considered details. Made to become part of your everyday rotation.")+'</p>'+
+      '<div class="product-fit-block"><span class="detail-label">FIT</span><p>'+product.fit+'</p></div>'+
+      '<div class="product-size-block"><div class="size-heading"><span class="detail-label">SELECT SIZE</span><button type="button" class="size-guide-toggle" id="sizeGuideToggle">SIZE GUIDE +</button></div><div class="size-options">'+sizes+'</div><p class="size-selection-hint" id="sizeSelectionHint">Please select a size before adding to bag.</p></div>'+
+      '<div class="fabric-details"><span class="detail-label">FABRIC & QUALITY</span><p><strong>Composition</strong> — '+product.fabricComposition+'</p><p><strong>Quality & feel</strong> — '+product.fabricQuality+'</p></div>'+
+      '<div class="size-guide-panel hidden" id="sizeGuidePanel"><p class="size-guide-title">GARMENT MEASUREMENTS <span>(INCHES)</span></p><div class="size-table-wrap"><table class="size-guide-table"><thead><tr><th>Size</th><th>Chest</th><th>Length</th><th>Waist</th><th>Hip</th></tr></thead><tbody>'+sizeRows+'</tbody></table></div><small>Measurements are editable placeholders. Add your confirmed garment measurements before publishing.</small></div>'+
       '<p class="product-detail-note">PEOPLE NOT TRENDS. — WAQAR AL ANABI</p>'+
-      '<button type="button" class="product-detail-add" data-detail-add="'+product.id+'">ADD TO BAG <span>↗</span></button>'+
-      '<p class="product-detail-shipping">Prices displayed in PKR. More product information coming soon.</p>'+
+      '<button type="button" class="product-detail-add" data-detail-add="'+product.id+'" disabled>SELECT A SIZE <span>↗</span></button>'+
+      '<p class="product-detail-shipping">Prices displayed in PKR.</p>'+
     '</div>';
+  let selectedSize="";
+  const addButton=$("productDetailContent").querySelector("[data-detail-add]");
+  $("productDetailContent").querySelectorAll("[data-size]").forEach(button=>button.addEventListener("click",()=>{
+    selectedSize=button.dataset.size;
+    $("productDetailContent").querySelectorAll("[data-size]").forEach(option=>{
+      const active=option===button;
+      option.classList.toggle("selected",active);
+      option.setAttribute("aria-pressed",String(active));
+    });
+    $("sizeSelectionHint").textContent="Selected size: "+selectedSize;
+    addButton.disabled=false;
+    addButton.innerHTML='ADD TO BAG — '+selectedSize+' <span>↗</span>';
+  }));
+  $("sizeGuideToggle").addEventListener("click",()=>{
+    const panel=$("sizeGuidePanel");
+    const opening=panel.classList.contains("hidden");
+    panel.classList.toggle("hidden",!opening);
+    $("sizeGuideToggle").textContent=opening?"SIZE GUIDE −":"SIZE GUIDE +";
+  });
   const image=$("productDetailContent").querySelector("img");
   image.addEventListener("error",()=>{image.style.display="none";image.parentElement.style.background="linear-gradient(135deg,#7A1E3A,#49202E)"},{once:true});
 }
@@ -73,11 +105,11 @@ function openProduct(productId){
   if(!product)return;
   location.hash="#product-"+product.id;
 }
-function addProductToBag(productId){
+function addProductToBag(productId, selectedSize="Not selected"){
   const p=products.find(x=>x.id===Number(productId));
   if(!p)return;
-  const existing=cart.find(x=>x.id===p.id);
-  existing?existing.qty++:cart.push({...p,qty:1});
+  const existing=cart.find(x=>x.id===p.id&&x.selectedSize===selectedSize);
+  existing?existing.qty++:cart.push({...p,selectedSize,qty:1});
   updateBag();
   $("bag").classList.add("open");
 }
@@ -137,6 +169,6 @@ document.querySelector(".collection-back").addEventListener("click",event=>{
 });
 
 document.querySelector(".menu-toggle").addEventListener("click",()=>$("nav").classList.toggle("open"));document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
-$("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
+$("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" (Size: "+(p.selectedSize||"Not selected")+") x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
 $("year").textContent=new Date().getFullYear();chooseCountry(localStorage.getItem("wa-country")||"PK");render();updateBag();
 setTimeout(()=>{const splash=$("splash");splash.classList.add("fade");setTimeout(()=>{splash.classList.add("hidden");openWelcome()},650)},1800);
