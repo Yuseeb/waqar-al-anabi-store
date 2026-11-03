@@ -100,6 +100,7 @@
         — PEOPLE NOT TRENDS —
       </div>
       <header>
+        <button class="menu-toggle" type="button" aria-label="Open menu">☰</button>
         <a class="brand" href="#home">
           <img src="assets/wa-monogram.svg?v=white1">
           WAQAR AL ANABI
@@ -117,17 +118,15 @@
             🌐
             <span id="region">PK / PKR</span>
           </button>
+          <button id="favoritesOpen" type="button" aria-label="Open favourites" title="Favourites">
+            ♡<b id="favoriteCount">0</b>
+          </button>
+          <button id="cartOpen" type="button">
+            Bag<b id="count">0</b>
+          </button>
         </div>
       </header>
-      <div class="mobile-bottom-bar" aria-label="Mobile navigation">
-        <button class="menu-toggle" type="button" aria-label="Open menu">☰<span>MENU</span></button>
-        <button id="favoritesOpen" type="button" aria-label="Open favourites" title="Favourites">
-          ♡<b id="favoriteCount">0</b><span>FAVOURITES</span>
-        </button>
-        <button id="cartOpen" type="button" aria-label="Open shopping bag">
-          BAG<b id="count">0</b><span>BAG</span>
-        </button>
-      </div>
+      <div class="mobile-bottom-bar" aria-label="Mobile navigation"></div>
       <main>
         <section class="hero" id="home">
           <div>
@@ -327,7 +326,7 @@
         </p>
       </footer>
     </div>
-    <script src="script.js?v=20261103-18">
+    <script src="script.js?v=20261103-19">
     </script>
   </body>
 </html>
