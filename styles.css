@@ -3296,3 +3296,7 @@ body:not([data-theme="dark"]) .favorite-card-button.is-favorite {
   #store .mobile-bottom-bar #cartOpen > span { display:block; }
   #store .mobile-bottom-bar .menu-toggle::before { margin-bottom:0; }
 }
+
+
+/* The product search overlay belongs to the store only, never the country landing page */
+#welcome #mobileSearch { display:none !important; }
