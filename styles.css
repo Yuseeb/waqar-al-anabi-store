@@ -2281,3 +2281,12 @@ body[data-theme="light"] #store section.story > article > small,
 body:not([data-theme="dark"]) #store section.story > article > small {
   color: #FFFFFF !important;
 }
+
+
+/* Restore the original story headline accent: cream in light mode, gold in dark mode */
+#store section.story > article > h2 em {
+  color: #F7F3ED !important;
+}
+body[data-theme="dark"] #store section.story > article > h2 em {
+  color: #C5A46D !important;
+}
