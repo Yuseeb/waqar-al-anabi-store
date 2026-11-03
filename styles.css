@@ -198,3 +198,9 @@ footer h4{color:#C5A46D}
 #store .hero .btn{box-shadow:5px 5px 0 #7A1E3A!important}
 #store .hero .btn:hover{box-shadow:2px 2px 0 #7A1E3A!important}
 @media(max-width:560px){#store .product-card:nth-child(3n+2) .product-image{box-shadow:4px 4px 0 #7A1E3A!important}}
+
+
+/* Navbar monogram size update based on approved browser preview */
+#store header .brand img{width:56px;height:auto;flex:0 0 auto}
+@media(max-width:800px){#store header .brand img{width:48px}}
+@media(max-width:560px){#store header .brand img{width:38px}}
