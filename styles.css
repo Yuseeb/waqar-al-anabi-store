@@ -1854,3 +1854,34 @@ footer h4
     width:38px
   }
 }
+
+
+/* FIX: the global store footer styles were also affecting the welcome-screen footer.
+   Keep the welcome copyright as a small transparent text label. */
+#welcome .welcome-panel footer {
+  position: absolute;
+  left: clamp(28px, 7vw, 100px);
+  bottom: 20px;
+  display: block;
+  grid-template-columns: none;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  background: transparent;
+  color: #9a8d85;
+  border: 0;
+  box-shadow: none;
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 2px;
+  text-align: left;
+}
+@media (max-width: 560px) {
+  #welcome .welcome-panel footer {
+    left: 24px;
+    bottom: 15px;
+  }
+}
