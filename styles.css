@@ -2172,3 +2172,57 @@ body[data-theme="dark"] #themeToggle {
 @media (prefers-reduced-motion: reduce) {
   body { transition: none; }
 }
+
+
+/* COUNTRY SELECTOR: elegant typography with a subtle availability label */
+#welcome #countrySelect {
+  font-family: "Manrope", "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  color: #242424;
+}
+#welcome #countrySelect option {
+  font-family: "Manrope", "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 650;
+  color: #242424;
+  padding: 10px;
+}
+#welcome #countrySelect option:disabled {
+  color: #A9A0A0;
+  font-weight: 500;
+}
+#welcome #countryStatus {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: #7A1E3A;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: .13em;
+  opacity: .58;
+  white-space: nowrap;
+}
+body[data-theme="dark"] #welcome #countrySelect {
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #welcome #countrySelect option {
+  color: #F7F3ED;
+  background: #292125;
+}
+body[data-theme="dark"] #welcome #countrySelect option:disabled {
+  color: #95878C;
+}
+body[data-theme="dark"] #welcome #countryStatus {
+  color: #C5A46D;
+  opacity: .62;
+}
+@media (max-width: 560px) {
+  #welcome #countrySelect {
+    font-size: 14px;
+  }
+  #welcome #countryStatus {
+    font-size: 7px;
+    letter-spacing: .1em;
+  }
+}
