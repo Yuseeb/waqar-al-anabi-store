@@ -2,6 +2,25 @@ const WHATSAPP_NUMBER="923001234567"; // Replace this placeholder with your offi
 const regions={PK:["Pakistan","🇵🇰","PKR","₨","Pakistani Rupee"],US:["United States","🇺🇸","USD","$","US Dollar"],GB:["United Kingdom","🇬🇧","GBP","£","British Pound"],AE:["United Arab Emirates","🇦🇪","AED","د.إ","UAE Dirham"],SA:["Saudi Arabia","🇸🇦","SAR","﷼","Saudi Riyal"],CA:["Canada","🇨🇦","CAD","$","Canadian Dollar"],AU:["Australia","🇦🇺","AUD","$","Australian Dollar"],IN:["India","🇮🇳","INR","₹","Indian Rupee"],TR:["Türkiye","🇹🇷","TRY","₺","Turkish Lira"],EU:["European Union","🇪🇺","EUR","€","Euro"],QA:["Qatar","🇶🇦","QAR","﷼","Qatari Riyal"],KW:["Kuwait","🇰🇼","KWD","د.ك","Kuwaiti Dinar"],OM:["Oman","🇴🇲","OMR","ر.ع.","Omani Rial"],BH:["Bahrain","🇧🇭","BHD",".د.ب","Bahraini Dinar"],MY:["Malaysia","🇲🇾","MYR","RM","Malaysian Ringgit"]};
 let country="PK",currency="PKR",cart=[],filter="All";
 const $=id=>document.getElementById(id),countrySelect=$("countrySelect");
+
+const themeToggle = $("themeToggle");
+function applyTheme(theme) {
+  const selected = theme === "dark" ? "dark" : "light";
+  document.body.dataset.theme = selected;
+  localStorage.setItem("wa-theme", selected);
+  if (themeToggle) {
+    themeToggle.textContent = selected === "dark" ? "☀" : "☾";
+    themeToggle.setAttribute("aria-label", selected === "dark" ? "Switch to light mode" : "Switch to dark mode");
+    themeToggle.setAttribute("title", selected === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+}
+applyTheme(localStorage.getItem("wa-theme") || "light");
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    applyTheme(document.body.dataset.theme === "dark" ? "light" : "dark");
+  });
+}
+
 function chooseCountry(code){const r=regions[code]||regions.PK;country=code in regions?code:"PK";currency=r[2];$("flag").textContent=r[1];$("symbol").textContent=r[3];$("currencySelect").innerHTML='<option value="'+r[2]+'">'+r[2]+' — '+r[4]+'</option>';countrySelect.value=country}
 function openWelcome(){$("store").classList.add("hidden");$("welcome").classList.remove("hidden");chooseCountry(localStorage.getItem("wa-country")||"PK");window.scrollTo(0,0)}
 function enterStore(){localStorage.setItem("wa-country",country);localStorage.setItem("wa-currency",currency);$("welcome").classList.add("hidden");$("store").classList.remove("hidden");$("region").textContent=country+" / "+currency;render();window.scrollTo(0,0)}
