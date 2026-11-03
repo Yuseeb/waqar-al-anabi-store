@@ -1959,3 +1959,216 @@ footer h4
     box-shadow: 4px 4px 0 #7A1E3A !important;
   }
 }
+
+
+/* WA LIGHT / DARK MODE — Burgundy & Gold brand system */
+:root {
+  color-scheme: light;
+  --page-bg: #F7F3ED;
+  --surface: #FFFDFA;
+  --surface-soft: #F1E9E1;
+  --text-main: #242424;
+  --text-muted: #756D6D;
+  --line-color: #DED6CF;
+  --theme-control-bg: #FFFDFA;
+}
+body {
+  background: var(--page-bg);
+  color: var(--text-main);
+  transition: background-color .25s ease, color .25s ease;
+}
+#themeToggle {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 2px solid #242424;
+  border-radius: 999px;
+  background: var(--theme-control-bg);
+  color: #7A1E3A;
+  font-size: 18px;
+  line-height: 1;
+  box-shadow: 2px 2px 0 #7A1E3A;
+  cursor: pointer;
+}
+#themeToggle:hover {
+  background: #7A1E3A;
+  color: #FFFFFF;
+}
+body[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #171416;
+  --surface: #211B1E;
+  --surface-soft: #292125;
+  --text-main: #F7F3ED;
+  --text-muted: #C9BFC2;
+  --line-color: #49383F;
+  --theme-control-bg: #292125;
+  background: var(--page-bg);
+  color: var(--text-main);
+}
+body[data-theme="dark"] #store {
+  background: #171416;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store header {
+  background: #211B1E;
+  color: #F7F3ED;
+  border-bottom-color: #49383F;
+}
+body[data-theme="dark"] #store header nav {
+  background: #211B1E;
+}
+body[data-theme="dark"] #store header nav a,
+body[data-theme="dark"] #store .brand {
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store header nav a:hover,
+body[data-theme="dark"] #store header nav a.active,
+body[data-theme="dark"] #store header nav a:focus-visible {
+  color: #C5A46D !important;
+}
+body[data-theme="dark"] #store .actions button {
+  background: #292125;
+  color: #F7F3ED;
+  border-color: #C5A46D;
+}
+body[data-theme="dark"] #store .actions b {
+  background: #7A1E3A !important;
+  color: #FFFFFF !important;
+}
+body[data-theme="dark"] #store .hero {
+  color: #F7F3ED;
+  background-image: linear-gradient(90deg,#171416 0%,#171416e8 32%,#17141620 78%),url('https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=1800&q=85');
+}
+body[data-theme="dark"] #store .hero p,
+body[data-theme="dark"] #store .intro p,
+body[data-theme="dark"] #store .story p {
+  color: #D4CBCD;
+}
+body[data-theme="dark"] #store .intro {
+  background: #292125;
+  color: #F7F3ED;
+  border-color: #C5A46D;
+}
+body[data-theme="dark"] #store .intro h2,
+body[data-theme="dark"] #store .products h2,
+body[data-theme="dark"] #store .story h2 {
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store .products {
+  background: #211B1E;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store .filters button {
+  background: #292125;
+  color: #F7F3ED;
+  border-color: #C5A46D;
+}
+body[data-theme="dark"] #store .filters button.active,
+body[data-theme="dark"] #store .filters button:hover {
+  background: #7A1E3A;
+  color: #FFFFFF;
+}
+body[data-theme="dark"] #store .product-card h3 {
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store .product-card p {
+  color: #D9B978;
+}
+body[data-theme="dark"] #store .product-image {
+  background: #7A1E3A !important;
+  border-color: #C5A46D;
+  box-shadow: 6px 6px 0 #7A1E3A !important;
+}
+body[data-theme="dark"] #store .product-image button {
+  background: #C5A46D !important;
+  color: #211B1E !important;
+  border-color: #C5A46D;
+}
+body[data-theme="dark"] #store .banner {
+  background: #7A1E3A;
+  color: #FFFFFF;
+}
+body[data-theme="dark"] #store .story {
+  background: #292125 !important;
+  color: #F7F3ED !important;
+  border-color: #C5A46D;
+}
+body[data-theme="dark"] #store .story h2 em {
+  color: #C5A46D !important;
+}
+body[data-theme="dark"] #store footer {
+  background: #0F0D0F;
+  color: #F7F3ED;
+  border-top-color: #C5A46D;
+}
+body[data-theme="dark"] #store footer a,
+body[data-theme="dark"] #store footer p {
+  color: #D4CBCD;
+}
+body[data-theme="dark"] #store #bag {
+  background: #211B1E;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store #bag #close {
+  background: #292125;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #store #items p {
+  border-bottom-color: #49383F;
+}
+body[data-theme="dark"] #store #items button {
+  color: #D9B978;
+}
+body[data-theme="dark"] #welcome .welcome-panel {
+  background: linear-gradient(145deg,#211B1E,#171416);
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #welcome .welcome-panel h1 {
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #welcome .welcome-panel h1 em {
+  color: #C5A46D;
+}
+body[data-theme="dark"] #welcome .welcome-panel > p {
+  color: #D4CBCD;
+}
+body[data-theme="dark"] #welcome .welcome-panel label,
+body[data-theme="dark"] #welcome .eyebrow {
+  color: #D9B978;
+}
+body[data-theme="dark"] #welcome .selectbox {
+  background: #292125;
+  border-color: #725965;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #welcome .selectbox select {
+  color: #F7F3ED;
+  background: #292125;
+}
+body[data-theme="dark"] #welcome .selectbox select option {
+  background: #292125;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] #welcome .note,
+body[data-theme="dark"] #welcome .welcome-panel footer {
+  color: #BBAEB2;
+}
+body[data-theme="dark"] #welcome #start {
+  background: #7A1E3A;
+  color: #FFFFFF;
+}
+body[data-theme="dark"] #themeToggle {
+  background: #292125;
+  color: #C5A46D;
+  border-color: #C5A46D;
+  box-shadow: 2px 2px 0 #7A1E3A;
+}
+@media (max-width: 560px) {
+  body[data-theme="dark"] #store .product-image {
+    box-shadow: 4px 4px 0 #7A1E3A !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none; }
+}
