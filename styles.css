@@ -2378,3 +2378,129 @@ body[data-theme="dark"] .collection-grid .product-image {
   .collection-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
   .collection-grid .product-image { height: 230px; box-shadow: 4px 4px 0 #7A1E3A !important; }
 }
+
+
+/* Dedicated product details page */
+.product-detail-page {
+  min-height: 75vh;
+  padding: 28px 6% 85px;
+  background: var(--page-bg, #F7F3ED);
+  color: var(--text-main, #242424);
+}
+.product-detail-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1.1fr) minmax(300px,.9fr);
+  gap: clamp(30px,6vw,85px);
+  align-items: center;
+  max-width: 1320px;
+  margin: 24px auto 0;
+}
+.product-detail-image {
+  min-height: 560px;
+  background: #7A1E3A;
+  border: 3px solid #211B1E;
+  box-shadow: 9px 9px 0 #7A1E3A;
+  overflow: hidden;
+}
+.product-detail-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  object-fit: cover;
+}
+.product-detail-info { padding: 25px 0; }
+.product-detail-kicker {
+  color: #7A1E3A;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+.product-detail-info h1 {
+  margin: 16px 0;
+  color: var(--text-main, #242424);
+  font: 600 clamp(38px,5vw,64px) "Cormorant Garamond",serif;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.product-detail-price {
+  color: #7A1E3A;
+  font-size: 20px;
+  font-weight: 800;
+}
+.product-detail-rule {
+  width: 70px;
+  height: 3px;
+  margin: 25px 0;
+  background: #C5A46D;
+}
+.product-detail-description {
+  max-width: 490px;
+  color: var(--text-muted, #756D6D);
+  font-size: 16px;
+  line-height: 1.9;
+}
+.product-detail-note {
+  margin: 32px 0;
+  color: #7A1E3A;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.product-detail-add {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 460px;
+  padding: 20px 24px;
+  border: 2px solid #211B1E;
+  background: #7A1E3A;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  box-shadow: 5px 5px 0 #C5A46D;
+  cursor: pointer;
+}
+.product-detail-add:hover { background: #5E172D; }
+.product-detail-add span { font-size: 22px; }
+.product-detail-shipping {
+  margin-top: 22px;
+  color: var(--text-muted, #756D6D);
+  font-size: 11px;
+}
+.product-card[data-product-id] { cursor: pointer; }
+.product-card[data-product-id]:focus-visible {
+  outline: 3px solid #C5A46D;
+  outline-offset: 5px;
+}
+body[data-theme="dark"] .product-detail-page {
+  background: #171416;
+  color: #F7F3ED;
+}
+body[data-theme="dark"] .product-detail-info h1 { color: #F7F3ED; }
+body[data-theme="dark"] .product-detail-kicker,
+body[data-theme="dark"] .product-detail-note { color: #C5A46D; }
+body[data-theme="dark"] .product-detail-price { color: #C5A46D; }
+body[data-theme="dark"] .product-detail-description,
+body[data-theme="dark"] .product-detail-shipping { color: #D4CBCD; }
+body[data-theme="dark"] .product-detail-image {
+  border-color: #C5A46D;
+  box-shadow: 9px 9px 0 #7A1E3A;
+}
+@media (max-width: 760px) {
+  .product-detail-page { padding: 22px 5% 60px; }
+  .product-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    margin-top: 18px;
+  }
+  .product-detail-image,
+  .product-detail-image img {
+    min-height: 0;
+    height: min(110vw, 520px);
+  }
+  .product-detail-info { padding: 5px 0 20px; }
+  .product-detail-info h1 { font-size: 42px; }
+}
