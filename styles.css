@@ -3088,3 +3088,23 @@ body:not([data-theme="dark"]) .favorite-card-button.is-favorite {
 @media (min-width: 801px) {
   #store .mobile-bottom-bar { display:none !important; }
 }
+
+
+/* Shopping bag icon replaces the Bag text in desktop and mobile navigation */
+#store #cartOpen {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+#store #cartOpen .bag-icon {
+  display:block;
+  width:21px;
+  height:21px;
+  flex:0 0 21px;
+}
+#store .mobile-bottom-bar #cartOpen .bag-icon {
+  width:23px;
+  height:23px;
+  flex:0 0 23px;
+}
