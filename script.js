@@ -1,6 +1,8 @@
 const WHATSAPP_NUMBER="923001234567"; // Replace this placeholder with your official WhatsApp number before launch.
 const regions={PK:["Pakistan","🇵🇰","PKR","₨","Pakistani Rupee"],US:["United States","🇺🇸","USD","$","US Dollar"],GB:["United Kingdom","🇬🇧","GBP","£","British Pound"],AE:["United Arab Emirates","🇦🇪","AED","د.إ","UAE Dirham"],SA:["Saudi Arabia","🇸🇦","SAR","﷼","Saudi Riyal"],CA:["Canada","🇨🇦","CAD","$","Canadian Dollar"],AU:["Australia","🇦🇺","AUD","$","Australian Dollar"],IN:["India","🇮🇳","INR","₹","Indian Rupee"],TR:["Türkiye","🇹🇷","TRY","₺","Turkish Lira"],EU:["European Union","🇪🇺","EUR","€","Euro"],QA:["Qatar","🇶🇦","QAR","﷼","Qatari Riyal"],KW:["Kuwait","🇰🇼","KWD","د.ك","Kuwaiti Dinar"],OM:["Oman","🇴🇲","OMR","ر.ع.","Omani Rial"],BH:["Bahrain","🇧🇭","BHD",".د.ب","Bahraini Dinar"],MY:["Malaysia","🇲🇾","MYR","RM","Malaysian Ringgit"]};
 let country="PK",currency="PKR",cart=[],filter="All";
+let favorites=[];
+try { favorites=JSON.parse(localStorage.getItem("wa-favorites")||"[]").map(Number); } catch(error) { favorites=[]; }
 const $=id=>document.getElementById(id),countrySelect=$("countrySelect");
 
 const themeToggle = $("themeToggle");
@@ -34,17 +36,53 @@ const products=[
 {id:6,name:"Pleated Relaxed Pants",cat:"Men",price:4490,img:"https://images.unsplash.com/photo-1511196044526-5cb3bcbc707b?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Relaxed pleated fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric weight, drape and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]}
 ];
 const money=n=>{try{return new Intl.NumberFormat("en",{style:"currency",currency,maximumFractionDigits:0}).format(n)}catch{return currency+" "+Math.round(n).toLocaleString("en")}};
-function productCard(p){return '<article class="product-card" data-product-id="'+p.id+'" role="link" tabindex="0" aria-label="View details for '+p.name+'"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" data-add="'+p.id+'">QUICK ADD +</button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>'}
+function updateFavorites(){
+  const count=$("favoriteCount");
+  if(count)count.textContent=favorites.length;
+  const items=$("favoriteItems");
+  if(!items)return;
+  const savedProducts=products.filter(p=>favorites.includes(p.id));
+  items.innerHTML=savedProducts.map(p=>'<article class="favorite-item"><button type="button" class="favorite-item-image" data-view-favorite="'+p.id+'"><img src="'+p.img+'" alt="'+p.name+'"></button><div class="favorite-item-info"><button type="button" class="favorite-item-name" data-view-favorite="'+p.id+'">'+p.name+'</button><span>'+money(p.price)+'</span><button type="button" class="favorite-remove" data-remove-favorite="'+p.id+'">REMOVE ♥</button></div></article>').join("")||'<p class="favorites-empty">Your favourites list is empty. Save pieces you love and find them here.</p>';
+  items.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.visibility="hidden"},{once:true}));
+}
+function toggleFavorite(productId){
+  const id=Number(productId);
+  if(favorites.includes(id))favorites=favorites.filter(item=>item!==id);
+  else favorites.push(id);
+  localStorage.setItem("wa-favorites",JSON.stringify(favorites));
+  updateFavorites();
+  document.querySelectorAll('[data-favorite="'+id+'"]').forEach(button=>{
+    const saved=favorites.includes(id);
+    button.classList.toggle("is-favorite",saved);
+    button.setAttribute("aria-pressed",String(saved));
+    button.setAttribute("aria-label",saved?"Remove from favourites":"Add to favourites");
+    button.innerHTML='<span aria-hidden="true">'+(saved?'♥':'♡')+'</span><em>'+(saved?'SAVED':'ADD TO FAVOURITES')+'</em>';
+  });
+  if(favorites.includes(id))$("favorites").classList.add("open");
+}
+function productCard(p){
+  const saved=favorites.includes(p.id);
+  return '<article class="product-card" data-product-id="'+p.id+'" role="link" tabindex="0" aria-label="View details for '+p.name+'"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" class="favorite-card-button '+(saved?'is-favorite':'')+'" data-favorite="'+p.id+'" aria-label="'+(saved?'Remove from':'Add to')+' favourites" aria-pressed="'+saved+'"><span aria-hidden="true">'+(saved?'♥':'♡')+'</span><em>'+(saved?'SAVED':'ADD TO FAVOURITES')+'</em></button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>';
+}
 function render(){const grid=$("grid");grid.innerHTML=products.filter(p=>filter==="All"||p.cat===filter).map(productCard).join("")||'<p>No products found in this collection yet.</p>';grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}))}
 function updateBag(){$("count").textContent=cart.reduce((a,p)=>a+p.qty,0);$("subtotal").textContent=money(cart.reduce((a,p)=>a+p.price*p.qty,0));$("items").innerHTML=cart.map(p=>'<p>'+p.name+' — Size: '+(p.selectedSize||"Not selected")+' × '+p.qty+' — '+money(p.price*p.qty)+' <button type="button" data-remove="'+p.id+'" data-size="'+(p.selectedSize||"Not selected")+'">Remove</button></p>').join("")||"Your bag is empty."}
-$("grid").addEventListener("click",e=>{if(e.target.closest("[data-add]")){addProductToBag(e.target.closest("[data-add]").dataset.add);return}handleProductCardClick(e)});
+$("grid").addEventListener("click",e=>{const fav=e.target.closest("[data-favorite]");if(fav){toggleFavorite(fav.dataset.favorite);return}handleProductCardClick(e)});
 $("grid").addEventListener("keydown",handleProductCardKeydown);
-$("collectionGrid").addEventListener("click",e=>{if(e.target.closest("[data-add]")){addProductToBag(e.target.closest("[data-add]").dataset.add);return}handleProductCardClick(e)});
+$("collectionGrid").addEventListener("click",e=>{const fav=e.target.closest("[data-favorite]");if(fav){toggleFavorite(fav.dataset.favorite);return}handleProductCardClick(e)});
 $("collectionGrid").addEventListener("keydown",handleProductCardKeydown);
 $("productDetailContent").addEventListener("click",e=>{const button=e.target.closest("[data-detail-add]");if(button&&!button.disabled){const chosen=$("productDetailContent").querySelector(".size-option.selected");if(chosen)addProductToBag(button.dataset.detailAdd,chosen.dataset.size)}});
 $("items").addEventListener("click",e=>{const id=Number(e.target.dataset.remove);if(id){const size=e.target.dataset.size||"Not selected";cart=cart.filter(p=>!(p.id===id&&(p.selectedSize||"Not selected")===size));updateBag()}});
+$("favoriteItems").addEventListener("click",e=>{
+  const remove=e.target.closest("[data-remove-favorite]");
+  const view=e.target.closest("[data-view-favorite]");
+  if(remove){toggleFavorite(remove.dataset.removeFavorite);return}
+  if(view){$("favorites").classList.remove("open");openProduct(view.dataset.viewFavorite)}
+});
+$("favoritesOpen").addEventListener("click",()=>$("favorites").classList.add("open"));
+$("favoritesClose").addEventListener("click",()=>$("favorites").classList.remove("open"));
+
 $("cartOpen").addEventListener("click",()=>$("bag").classList.add("open"));$("close").addEventListener("click",()=>$("bag").classList.remove("open"));
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("nav").classList.remove("open")}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("favorites").classList.remove("open");$("nav").classList.remove("open")}});
 document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.cat;document.querySelectorAll(".filters button").forEach(x=>x.classList.toggle("active",x===b));render()}));
 function renderCollection(category){
   const title = category === "Women" ? "For Her" : "For Him";
@@ -206,5 +244,5 @@ document.querySelector(".collection-back").addEventListener("click",event=>{
 
 document.querySelector(".menu-toggle").addEventListener("click",()=>$("nav").classList.toggle("open"));document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
 $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" (Size: "+(p.selectedSize||"Not selected")+") x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
-$("year").textContent=new Date().getFullYear();chooseCountry(localStorage.getItem("wa-country")||"PK");render();updateBag();
+$("year").textContent=new Date().getFullYear();chooseCountry(localStorage.getItem("wa-country")||"PK");render();updateBag();updateFavorites();
 setTimeout(()=>{const splash=$("splash");splash.classList.add("fade");setTimeout(()=>{splash.classList.add("hidden");openWelcome()},650)},1800);
