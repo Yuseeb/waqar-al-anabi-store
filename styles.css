@@ -3287,3 +3287,12 @@ body:not([data-theme="dark"]) .favorite-card-button.is-favorite {
   body[data-theme="dark"] .mobile-search-result small,
   body[data-theme="dark"] .mobile-search-result > b { color:#C5A46D; }
 }
+
+#store header .actions #favoritesOpen > span,
+#store header .actions #cartOpen > span { display:none; }
+@media(max-width:800px) {
+  #store .mobile-bottom-bar .menu-toggle > span,
+  #store .mobile-bottom-bar #favoritesOpen > span,
+  #store .mobile-bottom-bar #cartOpen > span { display:block; }
+  #store .mobile-bottom-bar .menu-toggle::before { margin-bottom:0; }
+}
