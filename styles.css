@@ -1947,3 +1947,15 @@ footer h4
     background: linear-gradient(145deg, #fbf8f4, #f1e9e1);
   }
 }
+
+
+/* PRODUCT CARDS: use the same official burgundy background and shadow on every card */
+#store #grid .product-image {
+  background: #7A1E3A !important;
+  box-shadow: 6px 6px 0 #7A1E3A !important;
+}
+@media (max-width: 560px) {
+  #store #grid .product-image {
+    box-shadow: 4px 4px 0 #7A1E3A !important;
+  }
+}
