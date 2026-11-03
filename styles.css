@@ -3300,3 +3300,20 @@ body:not([data-theme="dark"]) .favorite-card-button.is-favorite {
 
 /* The product search overlay belongs to the store only, never the country landing page */
 #welcome #mobileSearch { display:none !important; }
+
+
+/* Selected mobile navigation item uses the brand burgundy */
+@media(max-width:800px) {
+  #store .mobile-bottom-bar > a.active,
+  #store .mobile-bottom-bar > button.active {
+    color:#7A1E3A !important;
+  }
+  #store .mobile-bottom-bar > a,
+  #store .mobile-bottom-bar > button {
+    transition:color .18s ease;
+  }
+  body[data-theme="dark"] #store .mobile-bottom-bar > a.active,
+  body[data-theme="dark"] #store .mobile-bottom-bar > button.active {
+    color:#C5A46D !important;
+  }
+}
