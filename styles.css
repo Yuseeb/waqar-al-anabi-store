@@ -2271,3 +2271,13 @@ body[data-theme="dark"] #store .story small {
 body[data-theme="dark"] #store .story h2 em {
   color: #C5A46D !important;
 }
+
+
+/* FINAL OVERRIDE: keep OUR POINT OF VIEW white for clear contrast on burgundy */
+#store section.story > article > small {
+  color: #FFFFFF !important;
+}
+body[data-theme="light"] #store section.story > article > small,
+body:not([data-theme="dark"]) #store section.story > article > small {
+  color: #FFFFFF !important;
+}
