@@ -1914,3 +1914,36 @@ footer h4
     color: #7A1E3A !important;
   }
 }
+
+
+/* MOBILE WELCOME SCREEN: keep the photo fixed while the welcome content scrolls */
+@media (max-width: 560px) {
+  #welcome {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  #welcome .welcome-photo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 35vh;
+    min-height: 35vh;
+    z-index: 0;
+    flex: none;
+  }
+
+  #welcome .welcome-panel {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-top: 35vh;
+    min-height: 65vh;
+    padding-bottom: 70px;
+    background: linear-gradient(145deg, #fbf8f4, #f1e9e1);
+  }
+}
