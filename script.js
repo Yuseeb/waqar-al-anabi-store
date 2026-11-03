@@ -21,7 +21,7 @@ if (themeToggle) {
   });
 }
 
-function chooseCountry(code){const r=regions.PK;country="PK";currency="PKR";$("flag").textContent=r[1];$("symbol").textContent=r[3];$("currencySelect").innerHTML='<option value="PKR">PKR — Pakistani Rupee</option>';countrySelect.value="PK";countrySelect.options[0].disabled=false;for(let i=1;i<countrySelect.options.length;i++)countrySelect.options[i].disabled=true}
+function chooseCountry(code){const r=regions.PK;country="PK";currency="PKR";$("flag").textContent=r[1];$("symbol").textContent=r[3];$("currencySelect").innerHTML='<option value="PKR">PKR — Pakistani Rupee</option>';countrySelect.value="PK";countrySelect.options[0].disabled=false;for(let i=1;i<countrySelect.options.length;i++)countrySelect.options[i].disabled=true;const selectedName=countrySelect.options[countrySelect.selectedIndex].textContent.trim().split(" — ")[0];$("startCountry").textContent=selectedName.toUpperCase()}
 function openWelcome(){$("store").classList.add("hidden");$("welcome").classList.remove("hidden");chooseCountry("PK");window.scrollTo(0,0)}
 function enterStore(){localStorage.setItem("wa-country",country);localStorage.setItem("wa-currency",currency);$("welcome").classList.add("hidden");$("store").classList.remove("hidden");$("region").textContent=country+" / "+currency;render();window.scrollTo(0,0)}
 countrySelect.addEventListener("change",e=>chooseCountry(e.target.value));$("start").addEventListener("click",enterStore);$("change").addEventListener("click",openWelcome);
