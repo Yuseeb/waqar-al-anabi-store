@@ -95,7 +95,7 @@ function handleProductCardKeydown(event){
 function routePage(){
   const route = location.hash.toLowerCase();
   const isCollection = route === "#for-him" || route === "#for-her";
-  const productMatch = route.match(/^#product-(\\d+)$/);
+  const productMatch = route.match(/^#product-(\d+)$/);
   const product = productMatch ? products.find(p=>p.id===Number(productMatch[1])) : null;
   const isProduct = Boolean(product);
   const showHome = !isCollection && !isProduct;
