@@ -3560,3 +3560,52 @@ body[data-theme="dark"] #store .mobile-search-panel.open .mobile-search-result >
     display:none !important;
   }
 }
+
+
+/* FINAL DESKTOP SEARCH PLACEMENT: a direct header child, outside the nav flex group */
+@media screen and (min-width: 801px) {
+  #store header > button#desktopSearchOpen {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 20 !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: auto !important;
+    min-width: 112px !important;
+    height: 42px !important;
+    margin: 0 14px !important;
+    padding: 0 15px !important;
+    border: 1px solid #7A1E3A !important;
+    border-radius: 999px !important;
+    background: #7A1E3A !important;
+    color: #FFFFFF !important;
+    font: 800 11px/1 "Manrope", sans-serif !important;
+    letter-spacing: .1em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+  }
+  #store header > button#desktopSearchOpen svg {
+    display: block !important;
+    width: 18px !important;
+    height: 18px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+    flex: 0 0 18px !important;
+  }
+  #store header > button#desktopSearchOpen span {
+    display: inline !important;
+    color: #FFFFFF !important;
+  }
+}
+@media screen and (max-width: 800px) {
+  #store header > button#desktopSearchOpen {
+    display: none !important;
+  }
+}
