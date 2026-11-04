@@ -3609,3 +3609,43 @@ body[data-theme="dark"] #store .mobile-search-panel.open .mobile-search-result >
     display: none !important;
   }
 }
+
+
+/* Desktop search is an icon only: burgundy in light mode, gold in dark mode */
+@media (min-width: 801px) {
+  #store header nav #desktopSearchOpen.desktop-nav-search {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    margin: 0 0 0 8px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #7A1E3A !important;
+    box-shadow: none !important;
+  }
+  #store header nav #desktopSearchOpen.desktop-nav-search svg {
+    display: block !important;
+    width: 21px !important;
+    height: 21px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2 !important;
+  }
+  #store header nav #desktopSearchOpen.desktop-nav-search:hover {
+    background: transparent !important;
+    color: #5E172D !important;
+    transform: scale(1.08);
+  }
+}
+@media (min-width: 801px) {
+  body[data-theme="dark"] #store header nav #desktopSearchOpen.desktop-nav-search,
+  body[data-theme="dark"] #store header nav #desktopSearchOpen.desktop-nav-search:hover {
+    color: #C5A46D !important;
+    background: transparent !important;
+  }
+}
