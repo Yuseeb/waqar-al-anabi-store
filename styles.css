@@ -3514,3 +3514,49 @@ body[data-theme="dark"] #store .mobile-search-panel.open .mobile-search-result >
     transform:translateY(0);
   }
 }
+
+
+/* Desktop search sits visibly alongside the main navigation links */
+@media(min-width:801px) {
+  #store header nav #desktopSearchOpen.desktop-nav-search {
+    display:inline-flex !important;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    padding:9px 13px;
+    border:1.5px solid #7A1E3A;
+    border-radius:999px;
+    background:#7A1E3A;
+    color:#FFFFFF;
+    font-family:"Manrope",sans-serif;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    cursor:pointer;
+    visibility:visible;
+    opacity:1;
+    position:relative;
+    z-index:6;
+  }
+  #store header nav #desktopSearchOpen.desktop-nav-search svg {
+    display:block;
+    width:17px;
+    height:17px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+  }
+  #store header nav #desktopSearchOpen.desktop-nav-search:hover {
+    background:#5E172D;
+    border-color:#5E172D;
+  }
+}
+@media(max-width:800px) {
+  #store header nav #desktopSearchOpen.desktop-nav-search {
+    display:none !important;
+  }
+}
