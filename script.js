@@ -315,6 +315,8 @@ $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is 
     document.body.classList.remove("mobile-search-open");
   }
   openButton.addEventListener("click",()=>{openSearch();setMobileNavActive(mobileSearchButton)});
+  const desktopOpenButton=$("desktopSearchOpen");
+  desktopOpenButton.addEventListener("click",openSearch);
   closeButton.addEventListener("click",()=>{closeSearch();setMobileNavActive(mobileHome)});
   input.addEventListener("input",showResults);
   results.addEventListener("click",event=>{
