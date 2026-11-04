@@ -278,7 +278,7 @@ $("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is 
   const mobile=window.matchMedia("(max-width: 800px)");
   function placeControls(){
     if(mobile.matches){
-      bottom.append(home,menu,search,favorites,bag);
+      bottom.append(menu,search,home,favorites,bag);
     }else{
       header.insertBefore(menu,brand);
       actions.append(favorites,bag);
