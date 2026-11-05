@@ -3674,3 +3674,73 @@ body[data-theme="dark"] #store .mobile-search-panel.open .mobile-search-result >
 @media (prefers-reduced-motion: reduce) {
   #store .announcement-headline { transition: none; }
 }
+
+
+/* Refined shopping bag line items and quantity controls */
+#store #items .bag-line-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+#store #items .bag-line-copy {
+  display:grid;
+  gap:5px;
+  min-width:0;
+}
+#store #items .bag-line-copy strong {
+  font-size:13px;
+  line-height:1.4;
+}
+#store #items .bag-line-copy small {
+  color:#887B78;
+  font-size:11px;
+}
+#store #items .bag-line-copy b {
+  color:var(--wine);
+  font-size:13px;
+}
+#store #items .bag-line-actions {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+#store #items .bag-line-actions button[data-quantity] {
+  float:none;
+  display:grid;
+  place-items:center;
+  width:27px;
+  height:27px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  color:var(--ink);
+  text-decoration:none;
+  font-size:17px;
+}
+#store #items .bag-line-actions span {
+  min-width:12px;
+  text-align:center;
+  font-size:12px;
+}
+#store #items .bag-line-actions button[data-remove] {
+  float:none;
+  flex-basis:100%;
+  text-align:right;
+  font-size:10px;
+}
+#store #items .bag-empty {
+  padding:20px 0;
+  color:#887B78;
+  line-height:1.7;
+}
+body[data-theme="dark"] #store #items .bag-line-copy small {
+  color:#B7A9AD;
+}
+body[data-theme="dark"] #store #items .bag-line-actions button[data-quantity] {
+  border-color:#59464E;
+  color:#F7F3ED;
+}
