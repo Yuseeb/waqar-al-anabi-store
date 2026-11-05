@@ -3,7 +3,27 @@ const regions={PK:["Pakistan","🇵🇰","PKR","₨","Pakistani Rupee"],US:["Uni
 let country="PK",currency="PKR",cart=[],filter="All";
 let favorites=[];
 try { favorites=JSON.parse(localStorage.getItem("wa-favorites")||"[]").map(Number); } catch(error) { favorites=[]; }
+
 const $=id=>document.getElementById(id),countrySelect=$("countrySelect");
+
+// Rotate the brand headline every 10 seconds, beginning with the original slogan.
+const announcementHeadline = $("announcementHeadline");
+if (announcementHeadline) {
+  const announcementLines = [
+    "— PEOPLE NOT TRENDS —",
+    "— WE DON'T COMPETE. WE COMPLETE. —"
+  ];
+  let announcementIndex = 0;
+  window.setInterval(() => {
+    announcementHeadline.classList.add("is-changing");
+    window.setTimeout(() => {
+      announcementIndex = (announcementIndex + 1) % announcementLines.length;
+      announcementHeadline.textContent = announcementLines[announcementIndex];
+      announcementHeadline.classList.remove("is-changing");
+    }, 350);
+  }, 10000);
+}
+
 
 const themeToggle = $("themeToggle");
 function applyTheme(theme) {
