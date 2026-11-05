@@ -1,6 +1,7 @@
 const WHATSAPP_NUMBER="923001234567"; // Replace this placeholder with your official WhatsApp number before launch.
 const regions={PK:["Pakistan","🇵🇰","PKR","₨","Pakistani Rupee"],US:["United States","🇺🇸","USD","$","US Dollar"],GB:["United Kingdom","🇬🇧","GBP","£","British Pound"],AE:["United Arab Emirates","🇦🇪","AED","د.إ","UAE Dirham"],SA:["Saudi Arabia","🇸🇦","SAR","﷼","Saudi Riyal"],CA:["Canada","🇨🇦","CAD","$","Canadian Dollar"],AU:["Australia","🇦🇺","AUD","$","Australian Dollar"],IN:["India","🇮🇳","INR","₹","Indian Rupee"],TR:["Türkiye","🇹🇷","TRY","₺","Turkish Lira"],EU:["European Union","🇪🇺","EUR","€","Euro"],QA:["Qatar","🇶🇦","QAR","﷼","Qatari Riyal"],KW:["Kuwait","🇰🇼","KWD","د.ك","Kuwaiti Dinar"],OM:["Oman","🇴🇲","OMR","ر.ع.","Omani Rial"],BH:["Bahrain","🇧🇭","BHD",".د.ب","Bahraini Dinar"],MY:["Malaysia","🇲🇾","MYR","RM","Malaysian Ringgit"]};
 let country="PK",currency="PKR",cart=[],filter="All";
+try { cart=JSON.parse(localStorage.getItem("wa-cart")||"[]"); if(!Array.isArray(cart))cart=[]; } catch(error) { cart=[]; }
 let favorites=[];
 try { favorites=JSON.parse(localStorage.getItem("wa-favorites")||"[]").map(Number); } catch(error) { favorites=[]; }
 
@@ -88,13 +89,31 @@ function productCard(p){
   return '<article class="product-card" data-product-id="'+p.id+'" role="link" tabindex="0" aria-label="View details for '+p.name+'"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" class="favorite-card-button '+(saved?'is-favorite':'')+'" data-favorite="'+p.id+'" aria-label="'+(saved?'Remove from':'Add to')+' favourites" aria-pressed="'+saved+'"><span aria-hidden="true">'+(saved?'♥':'♡')+'</span><em>'+(saved?'SAVED':'ADD TO FAVOURITES')+'</em></button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>';
 }
 function render(){const grid=$("grid");grid.innerHTML=products.filter(p=>filter==="All"||p.cat===filter).map(productCard).join("")||'<p>No products found in this collection yet.</p>';grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}))}
-function updateBag(){$("count").textContent=cart.reduce((a,p)=>a+p.qty,0);$("subtotal").textContent=money(cart.reduce((a,p)=>a+p.price*p.qty,0));$("items").innerHTML=cart.map(p=>'<p>'+p.name+' — Size: '+(p.selectedSize||"Not selected")+' × '+p.qty+' — '+money(p.price*p.qty)+' <button type="button" data-remove="'+p.id+'" data-size="'+(p.selectedSize||"Not selected")+'">Remove</button></p>').join("")||"Your bag is empty."}
+function updateBag(){
+  localStorage.setItem("wa-cart",JSON.stringify(cart));
+  $("count").textContent=cart.reduce((a,p)=>a+p.qty,0);
+  $("subtotal").textContent=money(cart.reduce((a,p)=>a+p.price*p.qty,0));
+  $("items").innerHTML=cart.map(p=>'<article class="bag-line-item"><div class="bag-line-copy"><strong>'+p.name+'</strong><small>Size: '+(p.selectedSize||"Not selected")+'</small><b>'+money(p.price*p.qty)+'</b></div><div class="bag-line-actions"><button type="button" data-quantity="-1" data-id="'+p.id+'" data-size="'+(p.selectedSize||"Not selected")+'" aria-label="Decrease quantity">−</button><span>'+p.qty+'</span><button type="button" data-quantity="1" data-id="'+p.id+'" data-size="'+(p.selectedSize||"Not selected")+'" aria-label="Increase quantity">+</button><button type="button" data-remove="'+p.id+'" data-size="'+(p.selectedSize||"Not selected")+'">Remove</button></div></article>').join("")||'<p class="bag-empty">Your bag is empty. Discover your next favourite piece.</p>';
+}
 $("grid").addEventListener("click",e=>{const fav=e.target.closest("[data-favorite]");if(fav){toggleFavorite(fav.dataset.favorite);return}handleProductCardClick(e)});
 $("grid").addEventListener("keydown",handleProductCardKeydown);
 $("collectionGrid").addEventListener("click",e=>{const fav=e.target.closest("[data-favorite]");if(fav){toggleFavorite(fav.dataset.favorite);return}handleProductCardClick(e)});
 $("collectionGrid").addEventListener("keydown",handleProductCardKeydown);
 $("productDetailContent").addEventListener("click",e=>{const button=e.target.closest("[data-detail-add]");if(button&&!button.disabled){const chosen=$("productDetailContent").querySelector(".size-option.selected");if(chosen)addProductToBag(button.dataset.detailAdd,chosen.dataset.size)}});
-$("items").addEventListener("click",e=>{const id=Number(e.target.dataset.remove);if(id){const size=e.target.dataset.size||"Not selected";cart=cart.filter(p=>!(p.id===id&&(p.selectedSize||"Not selected")===size));updateBag()}});
+$("items").addEventListener("click",e=>{
+  const target=e.target.closest("button");
+  if(!target)return;
+  const id=Number(target.dataset.id||target.dataset.remove);
+  if(!id)return;
+  const size=target.dataset.size||"Not selected";
+  const item=cart.find(p=>p.id===id&&(p.selectedSize||"Not selected")===size);
+  if(target.dataset.remove){
+    cart=cart.filter(p=>!(p.id===id&&(p.selectedSize||"Not selected")===size));
+  }else if(target.dataset.quantity&&item){
+    item.qty=Math.max(1,item.qty+Number(target.dataset.quantity));
+  }
+  updateBag();
+});
 $("favoriteItems").addEventListener("click",e=>{
   const remove=e.target.closest("[data-remove-favorite]");
   const view=e.target.closest("[data-view-favorite]");
