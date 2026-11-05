@@ -3649,3 +3649,28 @@ body[data-theme="dark"] #store .mobile-search-panel.open .mobile-search-result >
     background: transparent !important;
   }
 }
+
+
+/* Rotating headline ticker in the burgundy announcement strip */
+#store .announcement {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px 16px;
+}
+#store .announcement-headline {
+  display: inline-block;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity .35s ease, transform .35s ease;
+  will-change: opacity, transform;
+}
+#store .announcement-headline.is-changing {
+  opacity: 0;
+  transform: translateY(12px);
+}
+@media (prefers-reduced-motion: reduce) {
+  #store .announcement-headline { transition: none; }
+}
