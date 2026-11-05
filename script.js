@@ -6,20 +6,23 @@ try { favorites=JSON.parse(localStorage.getItem("wa-favorites")||"[]").map(Numbe
 
 const $=id=>document.getElementById(id),countrySelect=$("countrySelect");
 
-// Rotate the brand headline every 10 seconds, beginning with the original slogan.
-const announcementHeadline = $("announcementHeadline");
-if (announcementHeadline) {
-  const announcementLines = [
+// Start the headline rotation only after the visitor enters the store.
+let announcementTimer = null;
+function startAnnouncementTicker() {
+  const headline = $("announcementHeadline");
+  if (!headline || announcementTimer) return;
+  const headlines = [
     "— PEOPLE NOT TRENDS —",
     "— WE DON'T COMPETE. WE COMPLETE. —"
   ];
-  let announcementIndex = 0;
-  window.setInterval(() => {
-    announcementHeadline.classList.add("is-changing");
+  let index = 0;
+  headline.textContent = headlines[index];
+  announcementTimer = window.setInterval(() => {
+    headline.classList.add("is-changing");
     window.setTimeout(() => {
-      announcementIndex = (announcementIndex + 1) % announcementLines.length;
-      announcementHeadline.textContent = announcementLines[announcementIndex];
-      announcementHeadline.classList.remove("is-changing");
+      index = (index + 1) % headlines.length;
+      headline.textContent = headlines[index];
+      headline.classList.remove("is-changing");
     }, 350);
   }, 10000);
 }
@@ -45,7 +48,7 @@ if (themeToggle) {
 
 function chooseCountry(code){const r=regions.PK;country="PK";currency="PKR";$("flag").textContent=r[1];$("symbol").textContent=r[3];$("currencySelect").innerHTML='<option value="PKR">PKR — Pakistani Rupee</option>';countrySelect.value="PK";countrySelect.options[0].disabled=false;for(let i=1;i<countrySelect.options.length;i++)countrySelect.options[i].disabled=true;const selectedName=countrySelect.options[countrySelect.selectedIndex].textContent.trim().split(" — ")[0];$("startCountry").textContent=selectedName.toUpperCase()}
 function openWelcome(){$("store").classList.add("hidden");$("welcome").classList.remove("hidden");chooseCountry("PK");window.scrollTo(0,0)}
-function enterStore(){localStorage.setItem("wa-country",country);localStorage.setItem("wa-currency",currency);$("welcome").classList.add("hidden");$("store").classList.remove("hidden");$("region").textContent=country+" / "+currency;render();routePage();window.scrollTo(0,0)}
+function enterStore(){localStorage.setItem("wa-country",country);localStorage.setItem("wa-currency",currency);$("welcome").classList.add("hidden");$("store").classList.remove("hidden");$("region").textContent=country+" / "+currency;startAnnouncementTicker();render();routePage();window.scrollTo(0,0)}
 countrySelect.addEventListener("change",e=>chooseCountry(e.target.value));$("start").addEventListener("click",enterStore);$("change").addEventListener("click",openWelcome);
 const products=[
 {id:1,name:"Classic Polo Shirt",cat:"Men",price:3490,img:"https://images.unsplash.com/photo-1625910513413-5fc3f3b1f1b9?auto=format&fit=crop&w=800&q=85",sizes:["S","M","L","XL"],fit:"Regular fit — edit to match the final garment.",fabricComposition:"Add confirmed fabric composition",fabricQuality:"Add fabric weight, texture and finish details",sizeGuide:[{size:"S",chest:"—",length:"—",waist:"—",hip:"—"},{size:"M",chest:"—",length:"—",waist:"—",hip:"—"},{size:"L",chest:"—",length:"—",waist:"—",hip:"—"},{size:"XL",chest:"—",length:"—",waist:"—",hip:"—"}]},
