@@ -88,7 +88,20 @@ function productCard(p){
   const saved=favorites.includes(p.id);
   return '<article class="product-card" data-product-id="'+p.id+'" role="link" tabindex="0" aria-label="View details for '+p.name+'"><div class="product-image"><img src="'+p.img+'" alt="'+p.name+'" loading="lazy"><button type="button" class="favorite-card-button '+(saved?'is-favorite':'')+'" data-favorite="'+p.id+'" aria-label="'+(saved?'Remove from':'Add to')+' favourites" aria-pressed="'+saved+'"><span aria-hidden="true">'+(saved?'♥':'♡')+'</span><em>'+(saved?'SAVED':'ADD TO FAVOURITES')+'</em></button></div><h3>'+p.name+'</h3><p>'+money(p.price)+'</p></article>';
 }
-function render(){const grid=$("grid");grid.innerHTML=products.filter(p=>filter==="All"||p.cat===filter).map(productCard).join("")||'<p>No products found in this collection yet.</p>';grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}))}
+function sortedProducts(items,sort){
+  const list=[...items];
+  if(sort==="price-asc")list.sort((a,b)=>a.price-b.price);
+  else if(sort==="price-desc")list.sort((a,b)=>b.price-a.price);
+  else if(sort==="name")list.sort((a,b)=>a.name.localeCompare(b.name));
+  return list;
+}
+function render(){
+  const grid=$("grid");
+  const maxPrice=Number($("productMaxPrice")?.value||0);
+  const matches=products.filter(p=>(filter==="All"||p.cat===filter)&&(!maxPrice||p.price<=maxPrice));
+  grid.innerHTML=sortedProducts(matches,$("productSort")?.value).map(productCard).join("")||'<p>No pieces match these filters. Try a different price or category.</p>';
+  grid.querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#f1e8e1,#e4d2c9)"},{once:true}));
+}
 function updateBag(){
   localStorage.setItem("wa-cart",JSON.stringify(cart));
   $("count").textContent=cart.reduce((a,p)=>a+p.qty,0);
@@ -126,6 +139,9 @@ $("favoritesClose").addEventListener("click",()=>{$("favorites").classList.remov
 $("cartOpen").addEventListener("click",()=>{$("bag").classList.add("open");setMobileNavActive(mobileBag)});$("close").addEventListener("click",()=>{$("bag").classList.remove("open");setMobileNavActive(mobileHome)});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("bag").classList.remove("open");$("favorites").classList.remove("open");$("nav").classList.remove("open");setMobileNavActive(mobileHome)}});
 document.querySelectorAll(".filters button").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.cat;document.querySelectorAll(".filters button").forEach(x=>x.classList.toggle("active",x===b));render()}));
+$("productSort").addEventListener("change",render);
+$("productMaxPrice").addEventListener("change",render);
+$("collectionSort").addEventListener("change",routePage);
 function renderCollection(category){
   const title = category === "Women" ? "For Her" : "For Him";
   $("collectionTitle").textContent = title;
@@ -133,7 +149,7 @@ function renderCollection(category){
   $("collectionDescription").textContent = category === "Women"
     ? "Thoughtful silhouettes, effortless fits, and everyday pieces made to feel like you."
     : "Refined essentials, relaxed fits, and considered details for everyday confidence.";
-  $("collectionGrid").innerHTML = products.filter(p=>p.cat===category).map(productCard).join("") || '<p class="empty-collection">New pieces are coming soon.</p>';
+  $("collectionGrid").innerHTML = sortedProducts(products.filter(p=>p.cat===category),$("collectionSort")?.value).map(productCard).join("") || '<p class="empty-collection">New pieces are coming soon.</p>';
   $("collectionGrid").querySelectorAll("img").forEach(img=>img.addEventListener("error",()=>{img.style.display="none";img.parentElement.style.background="linear-gradient(135deg,#7A1E3A,#49202E)"},{once:true}));
 }
 
@@ -240,13 +256,24 @@ function handleProductCardKeydown(event){
     openProduct(event.target.dataset.productId);
   }
 }
+const storeInformation={
+  "size-guide":'<h1>Size Guide</h1><p>Sizes vary by garment. Select a product to view its individual measurement chart. Measurements marked with a dash are not yet confirmed by the brand; please do not rely on them when ordering.</p><p>For the best fit, compare a similar garment you own with the measurements shown on the product page once published.</p>',
+  "faq":'<h1>Frequently Asked Questions</h1><h3>Where can I shop?</h3><p>Pakistan is the first planned shopping market. International locations are marked coming soon.</p><h3>How do I choose a size?</h3><p>Check the product-specific size chart and fit description. Some measurements are pending confirmation.</p><h3>Can I pay online?</h3><p>Online payment is not currently connected. The checkout form prepares an order request only.</p><h3>Are orders confirmed immediately?</h3><p>No. Availability, delivery charges and payment instructions require confirmation from the store.</p>',
+  "shipping":'<h1>Shipping Information</h1><p>Shipping destinations, courier partners, delivery times, charges and free-shipping thresholds have not yet been confirmed by WAQAR AL ANABI. Any delivery estimate will be provided before an order is accepted. No unverified delivery promises are made on this website.</p>',
+  "returns":'<h1>Returns & Exchanges</h1><p>The official return and exchange window, eligibility requirements, hygiene exclusions and return-shipping responsibility are pending publication. Please obtain the confirmed policy before purchasing. This page does not create or limit any rights available under applicable law.</p>',
+  "contact":'<h1>Contact WAQAR AL ANABI</h1><p>The verified customer-service email, WhatsApp number and business contact details will be published here before orders open. Until then, checkout requests can be copied but cannot be submitted to the store through this website.</p>',
+  "privacy":'<h1>Privacy Information</h1><p>Favourites, shopping bag and theme preferences are saved in your browser using local storage. The checkout form prepares an order request in your browser; it does not send customer details to a server. If you copy and share your request externally, that service will handle the information according to its own privacy practices.</p><p>A complete privacy notice must be approved when backend, analytics or payment services are introduced.</p>',
+  "terms":'<h1>Terms & Conditions</h1><p>This storefront is being prepared for launch. Product information, prices and availability are subject to verification. Preparing an order request does not create a confirmed sale. Payment and delivery terms must be confirmed before an order is accepted. A full business-approved terms document will be published before live sales.</p>'
+};
 function routePage(){
   const route = location.hash.toLowerCase();
   const isCollection = route === "#for-him" || route === "#for-her";
   const productMatch = route.match(/^#product-(\d+)$/);
   const product = productMatch ? products.find(p=>p.id===Number(productMatch[1])) : null;
   const isProduct = Boolean(product);
-  const showHome = !isCollection && !isProduct;
+  const infoRoute = route.replace(/^#/,"");
+  const isInfo = Object.prototype.hasOwnProperty.call(storeInformation,infoRoute);
+  const showHome = !isCollection && !isProduct && !isInfo;
   document.querySelectorAll("#store main > section:not(#collectionPage):not(#productPage)").forEach(section=>{
     section.style.display = showHome ? "" : "none";
     section.classList.toggle("hidden", !showHome);
@@ -257,6 +284,13 @@ function routePage(){
   const productPage=$("productPage");
   productPage.style.display=isProduct?"block":"none";
   productPage.classList.toggle("hidden",!isProduct);
+  const infoPage=$("infoPage");
+  infoPage.classList.toggle("hidden",!isInfo);
+  infoPage.style.display=isInfo?"block":"none";
+  if(isInfo){
+    $("infoContent").innerHTML=storeInformation[infoRoute];
+    window.scrollTo({top:0,behavior:"instant"});
+  }
   const storeFooter=document.querySelector("#store > footer");
   if(storeFooter)storeFooter.style.display=(isCollection||isProduct)?"none":"";
   if(isCollection){
@@ -303,7 +337,51 @@ document.querySelector(".menu-toggle").addEventListener("click",()=>{
   $("nav").classList.toggle("open");
   setMobileNavActive($("nav").classList.contains("open")?mobileMenu:mobileHome);
 });document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>{$("nav").classList.remove("open");document.querySelectorAll("#nav a").forEach(link=>link.classList.toggle("active",link===a))}));
-$("checkout").addEventListener("click",()=>{if(!cart.length){alert("Your bag is empty.");return}if(WHATSAPP_NUMBER==="923001234567"){alert("Please add your official WhatsApp number in script.js before accepting orders.");return}const msg="Hello WAQAR AL ANABI, I want to order:\n"+cart.map(p=>p.name+" (Size: "+(p.selectedSize||"Not selected")+") x "+p.qty+" — "+money(p.price*p.qty)).join("\n")+"\nTotal: "+money(cart.reduce((a,p)=>a+p.price*p.qty,0))+"\nCountry: "+regions[country][0]+"\nName:\nAddress:";window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank","noopener")});
+const checkoutOverlay=$("checkoutOverlay");
+function closeCheckout(){
+  checkoutOverlay.classList.add("hidden");
+  checkoutOverlay.setAttribute("aria-hidden","true");
+}
+$("checkout").addEventListener("click",()=>{
+  if(!cart.length){alert("Your bag is empty.");return;}
+  $("checkoutSubtotal").textContent=money(cart.reduce((total,p)=>total+p.price*p.qty,0));
+  $("checkoutForm").classList.remove("hidden");
+  $("checkoutResult").classList.add("hidden");
+  checkoutOverlay.classList.remove("hidden");
+  checkoutOverlay.setAttribute("aria-hidden","false");
+  $("bag").classList.remove("open");
+  $("checkoutForm").querySelector("input").focus();
+});
+$("checkoutClose").addEventListener("click",closeCheckout);
+checkoutOverlay.addEventListener("click",event=>{if(event.target===checkoutOverlay)closeCheckout();});
+$("checkoutForm").addEventListener("submit",event=>{
+  event.preventDefault();
+  const fields=new FormData(event.currentTarget);
+  const customer=Object.fromEntries(fields.entries());
+  const subtotal=cart.reduce((total,p)=>total+p.price*p.qty,0);
+  const orderLines=cart.map(p=>p.name+" | Size: "+(p.selectedSize||"Not selected")+" | Qty: "+p.qty+" | "+money(p.price*p.qty));
+  const summary=[
+    "WAQAR AL ANABI — ORDER REQUEST (NOT CONFIRMED)",
+    ...orderLines,
+    "Items subtotal: "+money(subtotal),
+    "Delivery fee: To be confirmed",
+    "Customer: "+customer.fullName,
+    "Phone: "+customer.phone,
+    "Email: "+(customer.email||"Not provided"),
+    "Address: "+customer.address+", "+customer.city+" "+(customer.postal||""),
+    "Payment preference: "+customer.payment,
+    "Please confirm availability, delivery charge and payment instructions."
+  ].join("\n");
+  const result=$("checkoutResult");
+  result.classList.remove("hidden");
+  $("checkoutForm").classList.add("hidden");
+  result.innerHTML='<h3>Order request prepared</h3><p>Your order has <strong>not</strong> been submitted or paid for. Copy the details below and send them to the store once its official contact is published.</p><textarea id="preparedOrder" readonly></textarea><button type="button" id="copyPreparedOrder" class="btn">COPY ORDER REQUEST</button>';
+  $("preparedOrder").value=summary;
+  $("copyPreparedOrder").addEventListener("click",()=>{
+    if(navigator.clipboard?.writeText)navigator.clipboard.writeText(summary).then(()=>{$("copyPreparedOrder").textContent="COPIED";}).catch(()=>{$("preparedOrder").select();});
+    else {$("preparedOrder").select();document.execCommand("copy");$("copyPreparedOrder").textContent="COPIED";}
+  });
+});
 
 // Move the same navigation controls between header and bottom bar by viewport.
 // Desktop keeps the original top navigation; only phones use the bottom bar.
