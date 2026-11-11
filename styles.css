@@ -3744,3 +3744,31 @@ body[data-theme="dark"] #store #items .bag-line-actions button[data-quantity] {
   border-color:#59464E;
   color:#F7F3ED;
 }
+
+/* Store completion: shopping filters, customer information and checkout */
+#store .shop-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0 28px}
+#store .shop-toolbar label{font:800 10px Manrope,sans-serif;letter-spacing:.13em}
+#store .shop-toolbar select{max-width:220px;padding:11px 30px 11px 12px;border:1px solid #d9cdd0;border-radius:4px;background:#fff;color:#171416;font:600 12px Manrope,sans-serif}
+#store .info-page{padding:70px max(6%,24px) 100px;min-height:60vh;max-width:1050px;margin:auto}
+#store .info-page h1{font:700 clamp(32px,5vw,60px) "Space Grotesk",sans-serif;margin:24px 0}
+#store .info-page h3{font:700 19px "Space Grotesk",sans-serif;margin:30px 0 8px}
+#store .info-page p{font:500 15px/1.9 Manrope,sans-serif;max-width:750px;margin:14px 0}
+#store .checkout-overlay{position:fixed;inset:0;z-index:100;background:#0c080bbd;display:flex;align-items:center;justify-content:center;padding:18px;overflow-y:auto}
+#store .checkout-overlay.hidden{display:none!important}
+#store .checkout-panel{position:relative;background:#fff;color:#171416;width:min(610px,100%);max-height:calc(100vh - 36px);overflow-y:auto;padding:clamp(22px,4vw,42px);border-radius:10px}
+#store .checkout-panel>small{font:800 10px Manrope,sans-serif;letter-spacing:.2em;color:#7A1E3A}
+#store .checkout-panel h2{font:700 36px "Space Grotesk",sans-serif;margin:12px 0}
+#store .checkout-close{position:absolute;top:15px;right:18px;background:transparent;border:0;font-size:30px;color:#171416;cursor:pointer}
+#store .checkout-panel form{display:grid;gap:14px;margin-top:24px}
+#store .checkout-panel form label{display:grid;gap:7px;font:700 12px Manrope,sans-serif}
+#store .checkout-panel input,#store .checkout-panel select,#store .checkout-panel textarea,#store .checkout-result textarea{width:100%;padding:12px;border:1px solid #cbbdc2;border-radius:4px;background:white;color:#171416;font:500 14px Manrope,sans-serif}
+#store .checkout-panel textarea{min-height:72px;resize:vertical}
+#store .checkout-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#store .checkout-total{display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid #ddd}
+#store .checkout-disclaimer{font:500 12px/1.7 Manrope,sans-serif;color:#68575d}
+#store .checkout-panel .btn{width:100%;border:0;cursor:pointer}
+#store .checkout-result textarea{height:210px;margin:16px 0;white-space:pre-wrap}
+#store .checkout-result h3{font-size:23px;margin-top:20px}
+body[data-theme="dark"] #store .info-page{color:#F7F3ED}
+body[data-theme="dark"] #store .shop-toolbar select{background:#2b2226;color:#F7F3ED;border-color:#60434d}
+@media(max-width:600px){#store .shop-toolbar{align-items:stretch;gap:9px}#store .shop-toolbar select{max-width:100%;flex:1}#store .checkout-fields{grid-template-columns:1fr}}
