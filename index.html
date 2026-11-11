@@ -8,7 +8,7 @@
       WAQAR AL ANABI
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=20261106-phase1">
+    <link rel="stylesheet" href="styles.css?v=20261111-store2">
   </head>
   <body>
     <section id="splash" class="splash">
@@ -216,6 +216,22 @@
               Women
             </button>
           </div>
+          <div class="shop-toolbar">
+            <label for="productSort">SORT BY</label>
+            <select id="productSort" aria-label="Sort products">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
+            <label for="productMaxPrice">MAX PRICE (PKR)</label>
+            <select id="productMaxPrice" aria-label="Maximum product price">
+              <option value="0">Any price</option>
+              <option value="3000">Under ₨3,000</option>
+              <option value="4000">Under ₨4,000</option>
+              <option value="5000">Under ₨5,000</option>
+            </select>
+          </div>
           <div id="grid">
           </div>
         </section>
@@ -257,6 +273,15 @@
             <small id="collectionEyebrow">THE WAQAR AL ANABI COLLECTION</small>
             <h1 id="collectionTitle">For Him</h1>
             <p id="collectionDescription">Everyday essentials, considered details, and effortless confidence.</p>
+          </div>
+          <div class="shop-toolbar">
+            <label for="collectionSort">SORT BY</label>
+            <select id="collectionSort" aria-label="Sort collection">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
           </div>
           <div id="collectionGrid" class="collection-grid"></div>
         </section>
@@ -303,6 +328,33 @@
       </label>
       <div id="mobileSearchResults" class="mobile-search-results"><p>Search for a piece you love.</p></div>
       </aside>
+      <section id="infoPage" class="info-page hidden" aria-label="Customer information">
+        <a class="collection-back" href="#home">← BACK TO SHOP</a>
+        <div id="infoContent"></div>
+      </section>
+      <div id="checkoutOverlay" class="checkout-overlay hidden" aria-hidden="true">
+        <section class="checkout-panel" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+          <button type="button" id="checkoutClose" class="checkout-close" aria-label="Close checkout">×</button>
+          <small>WAQAR AL ANABI / PAKISTAN</small>
+          <h2 id="checkoutTitle">Your details</h2>
+          <p class="checkout-disclaimer">Prepare your order request. No payment is collected on this website.</p>
+          <form id="checkoutForm">
+            <label>Full name <input name="fullName" required minlength="2" maxlength="100" autocomplete="name"></label>
+            <label>Mobile number <input name="phone" required type="tel" pattern="[+0-9 ()-]{10,20}" autocomplete="tel" placeholder="03XXXXXXXXX"></label>
+            <label>Email (optional) <input name="email" type="email" autocomplete="email"></label>
+            <label>Delivery address <textarea name="address" required minlength="10" maxlength="300" autocomplete="street-address"></textarea></label>
+            <div class="checkout-fields">
+              <label>City <input name="city" required autocomplete="address-level2"></label>
+              <label>Postal code (optional) <input name="postal" autocomplete="postal-code"></label>
+            </div>
+            <label>Payment preference <select name="payment"><option value="Cash on delivery (subject to confirmation)">Cash on delivery (subject to confirmation)</option><option value="Bank transfer (details to be confirmed)">Bank transfer (details to be confirmed)</option></select></label>
+            <div class="checkout-total">Items subtotal <strong id="checkoutSubtotal">₨0</strong></div>
+            <p class="checkout-disclaimer">Delivery charges and final availability are confirmed by the store. Submitting this form does not place or pay for an order.</p>
+            <button type="submit" class="btn">PREPARE ORDER REQUEST</button>
+          </form>
+          <div id="checkoutResult" class="checkout-result hidden" aria-live="polite"></div>
+        </section>
+      </div>
       <footer>
         <div>
           <img src="assets/wa-monogram.svg?v=white1">
@@ -324,14 +376,18 @@
           <a href="#products">
             Collections
           </a>
+          <a href="#size-guide">Size Guide</a>
+          <a href="#faq">FAQs</a>
         </div>
         <div>
           <h4>
             CONTACT
           </h4>
-          <a href="mailto:hello@waqaralanabi.com">
-            Email us
-          </a>
+          <a href="#contact">Contact information</a>
+          <a href="#shipping">Shipping information</a>
+          <a href="#returns">Returns & exchanges</a>
+          <a href="#privacy">Privacy</a>
+          <a href="#terms">Terms</a>
         </div>
         <div>
           <h4>
@@ -349,7 +405,7 @@
         </p>
       </footer>
     </div>
-    <script src="script.js?v=20261106-phase1">
+    <script src="script.js?v=20261111-store2">
     </script>
   </body>
 </html>
