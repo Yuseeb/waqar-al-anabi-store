@@ -337,7 +337,7 @@
           <button type="button" id="checkoutClose" class="checkout-close" aria-label="Close checkout">×</button>
           <small>WAQAR AL ANABI / PAKISTAN</small>
           <h2 id="checkoutTitle">Your details</h2>
-          <p class="checkout-disclaimer">Prepare your order request. No payment is collected on this website.</p>
+          <p class="checkout-disclaimer">Your order request will be emailed to our store. Payment is not collected at this stage.</p>
           <form id="checkoutForm">
             <label>Full name <input name="fullName" required minlength="2" maxlength="100" autocomplete="name"></label>
             <label>Mobile number <input name="phone" required type="tel" pattern="[+0-9 ()-]{10,20}" autocomplete="tel" placeholder="03XXXXXXXXX"></label>
@@ -347,10 +347,10 @@
               <label>City <input name="city" required autocomplete="address-level2"></label>
               <label>Postal code (optional) <input name="postal" autocomplete="postal-code"></label>
             </div>
-            <label>Payment preference <select name="payment"><option value="Cash on delivery (subject to confirmation)">Cash on delivery (subject to confirmation)</option><option value="Bank transfer (details to be confirmed)">Bank transfer (details to be confirmed)</option></select></label>
+            <label>Payment preference <select name="payment"><option value="Cash on Delivery">Cash on Delivery</option><option value="Debit / Credit Card (payment link to be confirmed)">Debit / Credit Card (payment link to be confirmed)</option><option value="JazzCash (payment instructions to be confirmed)">JazzCash (payment instructions to be confirmed)</option><option value="Easypaisa (payment instructions to be confirmed)">Easypaisa (payment instructions to be confirmed)</option><option value="Raast / Bank Transfer (payment instructions to be confirmed)">Raast / Bank Transfer (payment instructions to be confirmed)</option></select></label>
             <div class="checkout-total">Items subtotal <strong id="checkoutSubtotal">₨0</strong></div>
-            <p class="checkout-disclaimer">Delivery charges and final availability are confirmed by the store. Submitting this form does not place or pay for an order.</p>
-            <button type="submit" class="btn">PREPARE ORDER REQUEST</button>
+            <p class="checkout-disclaimer">Delivery charges and final availability are confirmed by the store. Submitting sends an order request by email. It does not charge your card or confirm payment. The store will contact you with payment instructions.</p>
+            <button type="submit" class="btn">SEND ORDER REQUEST</button>
           </form>
           <div id="checkoutResult" class="checkout-result hidden" aria-live="polite"></div>
         </section>
