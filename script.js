@@ -356,14 +356,17 @@ $("checkout").addEventListener("click",()=>{
 });
 $("checkoutClose").addEventListener("click",closeCheckout);
 checkoutOverlay.addEventListener("click",event=>{if(event.target===checkoutOverlay)closeCheckout();});
-$("checkoutForm").addEventListener("submit",event=>{
+$("checkoutForm").addEventListener("submit",async event=>{
   event.preventDefault();
-  const fields=new FormData(event.currentTarget);
+  if(!cart.length){alert("Your bag is empty.");closeCheckout();return;}
+  const form=event.currentTarget;
+  if(!form.reportValidity())return;
+  const fields=new FormData(form);
   const customer=Object.fromEntries(fields.entries());
   const subtotal=cart.reduce((total,p)=>total+p.price*p.qty,0);
   const orderLines=cart.map(p=>p.name+" | Size: "+(p.selectedSize||"Not selected")+" | Qty: "+p.qty+" | "+money(p.price*p.qty));
   const summary=[
-    "WAQAR AL ANABI — ORDER REQUEST (NOT CONFIRMED)",
+    "WAQAR AL ANABI — NEW ORDER REQUEST",
     ...orderLines,
     "Items subtotal: "+money(subtotal),
     "Delivery fee: To be confirmed",
@@ -372,17 +375,57 @@ $("checkoutForm").addEventListener("submit",event=>{
     "Email: "+(customer.email||"Not provided"),
     "Address: "+customer.address+", "+customer.city+" "+(customer.postal||""),
     "Payment preference: "+customer.payment,
-    "Please confirm availability, delivery charge and payment instructions."
+    "Payment status: NOT PAID — confirm payment separately",
+    "Please contact the customer to confirm stock, delivery charges and payment."
   ].join("\n");
+  const submit=form.querySelector('button[type="submit"]');
   const result=$("checkoutResult");
-  result.classList.remove("hidden");
-  $("checkoutForm").classList.add("hidden");
-  result.innerHTML='<h3>Order request prepared</h3><p>Your order has <strong>not</strong> been submitted or paid for. Copy the details below and send them to the store once its official contact is published.</p><textarea id="preparedOrder" readonly></textarea><button type="button" id="copyPreparedOrder" class="btn">COPY ORDER REQUEST</button>';
-  $("preparedOrder").value=summary;
-  $("copyPreparedOrder").addEventListener("click",()=>{
-    if(navigator.clipboard?.writeText)navigator.clipboard.writeText(summary).then(()=>{$("copyPreparedOrder").textContent="COPIED";}).catch(()=>{$("preparedOrder").select();});
-    else {$("preparedOrder").select();document.execCommand("copy");$("copyPreparedOrder").textContent="COPIED";}
-  });
+  submit.disabled=true;
+  submit.textContent="SENDING ORDER REQUEST…";
+  try{
+    const response=await fetch("https://formsubmit.co/ajax/waqaralanabi0@gmail.com",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","Accept":"application/json"},
+      body:JSON.stringify({
+        name:customer.fullName,
+        email:customer.email||"Not provided",
+        phone:customer.phone,
+        address:customer.address,
+        city:customer.city,
+        postal_code:customer.postal||"Not provided",
+        order_items:orderLines.join("\n"),
+        order_subtotal:money(subtotal),
+        payment_preference:customer.payment,
+        payment_status:"NOT PAID — no payment was collected",
+        message:summary,
+        _subject:"New WAQAR AL ANABI order request",
+        _template:"table"
+      })
+    });
+    const data=await response.json();
+    if(data.success!=="true"){
+      const activation=String(data.message||"").toLowerCase().includes("activation");
+      throw new Error(activation
+        ?"Please open the activation email sent to waqaralanabi0@gmail.com and confirm the form. Then submit this order again."
+        :(data.message||"The email service could not accept this request. Please try again."));
+    }
+    result.classList.remove("hidden");
+    form.classList.add("hidden");
+    result.innerHTML='<h3>Order request sent</h3><p>Thank you. Your order request has been emailed to the WAQAR AL ANABI team. This is not a payment confirmation. The store will confirm availability, delivery charges and payment separately.</p>';
+    cart=[];
+    updateBag();
+  }catch(error){
+    result.classList.remove("hidden");
+    result.innerHTML='<h3>Order not sent</h3><p></p><button type="button" id="retryOrder" class="btn">TRY AGAIN</button>';
+    result.querySelector("p").textContent=error.message||"Could not send the order. Please try again.";
+    $("retryOrder").addEventListener("click",()=>{
+      result.classList.add("hidden");
+      form.classList.remove("hidden");
+    });
+  }finally{
+    submit.disabled=false;
+    submit.textContent="SEND ORDER REQUEST";
+  }
 });
 
 // Move the same navigation controls between header and bottom bar by viewport.
