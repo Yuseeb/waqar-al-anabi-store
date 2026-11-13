@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yuseeb.github.io/waqar-al-anabi-store/sitemap.xml
