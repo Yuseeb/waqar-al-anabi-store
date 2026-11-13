@@ -1,23 +1,35 @@
 # WAQAR AL ANABI — Store launch checklist
 
-## Implemented storefront features
-- Responsive desktop and mobile navigation, theme toggle and Pakistan-only country selector
-- Men's and women's collections and product detail views
-- Product gallery/lightbox, size selection and product-specific measurement placeholders
-- Favourites, product search, category/price filters and sorting
-- Shopping bag with size-specific lines, quantity controls and browser-local persistence
-- Checkout **request preparation** with required customer contact/address fields and copyable summary
-- Customer information routes: size guide, FAQ, shipping, returns, contact, privacy and terms
+## Static storefront prepared
+- [x] Responsive home page, Men/Women collections and product detail routes
+- [x] Search, category/price filtering and sorting
+- [x] Favourites, size-aware shopping bag and browser-local persistence
+- [x] Checkout request form with customer/address fields and order item summary
+- [x] Email order-request delivery configured to waqaralanabi0@gmail.com through FormSubmit
+- [x] Payment preference choices displayed: card, JazzCash, Easypaisa, Raast/bank transfer and COD
+- [x] Customer information pages, basic SEO metadata, contact email and mobile navigation
+- [x] Static-site documentation and launch instructions
 
-## Not yet safe to activate for sales
-- **Official product assets and data:** Replace Unsplash placeholder photos, provisional prices, and blank measurements with verified product images, prices, colour variants, fabric composition, stock and size charts.
-- **Business contact:** Publish a verified official support email and WhatsApp number. The current placeholder number in script.js must not receive orders.
-- **Shipping/returns/legal:** Business owner must approve actual shipping rates, delivery times, return/exchange window, privacy notice and terms before publishing binding promises.
-- **Backend:** Static GitHub Pages has no authenticated admin panel, server-side inventory, durable order database, fulfilment workflow or transactional notifications. Choose a hosted e-commerce backend or secure custom API and database; add credentials as secrets, never in public JavaScript.
-- **Payments:** Obtain merchant accounts and integrate supported Pakistani payment providers via a secure backend and verified webhooks. Do not handle card details in client-side code.
-- **Order tracking:** Only expose tracking after a fulfilment system and carrier/order identifiers are available.
-- **Customer accounts:** Not required for initial guest checkout; if added later, use a reputable authentication provider.
-- **Security and operations:** Test checkout validation, product stock consistency, accessibility, mobile layouts, browser compatibility, backups, domain/SSL, analytics consent, and order/return support workflows.
+## Owner actions before taking orders
+- [ ] Submit a test checkout and activate FormSubmit using the confirmation email sent to waqaralanabi0@gmail.com
+- [ ] Submit a second test order and confirm the email arrives; check Spam/Junk
+- [ ] Replace every sample Unsplash image with approved product photography
+- [ ] Confirm product names, prices, colour variants, sizes, stock, fabric composition, fit and actual measurements
+- [ ] Confirm courier, shipping coverage, delivery rates and realistic delivery estimates
+- [ ] Approve the returns/exchanges policy, terms and privacy notice
+- [ ] Confirm the support inbox is monitored and define who replies to customers
+- [ ] Test all routes, links, product cards, image gallery, cart quantities, form validation and mobile/desktop layouts
+- [ ] Check site performance, image loading, contrast, keyboard navigation and screen-reader labels
+- [ ] Add real social profile links and a custom domain if desired
 
-## Important
-The current checkout prepares a **copyable request only**. It does not transmit an order, reserve stock, take payment or confirm delivery. Do not advertise the store as fully operational until the above integrations and business details are verified.
+## Not included (requires a backend or external commerce integration)
+- Secure online card/wallet payment processing and verified payment callbacks
+- Central inventory/stock management, automatic stock deduction and product admin dashboard
+- Order database, customer accounts, automated order status, shipping labels and tracking
+- Refund automation and transaction reconciliation
+
+## Current checkout truth
+The checkout emails an **order request** to waqaralanabi0@gmail.com after FormSubmit activation. It is not a confirmed sale, does not reserve stock, and does not charge the customer. Payment choices are preferences only. Never request card numbers, CVV, passwords or OTPs in the email form.
+
+## Live preview
+https://yuseeb.github.io/waqar-al-anabi-store/
