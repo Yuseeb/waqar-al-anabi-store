@@ -3772,3 +3772,30 @@ body[data-theme="dark"] #store #items .bag-line-actions button[data-quantity] {
 body[data-theme="dark"] #store .info-page{color:#F7F3ED}
 body[data-theme="dark"] #store .shop-toolbar select{background:#2b2226;color:#F7F3ED;border-color:#60434d}
 @media(max-width:600px){#store .shop-toolbar{align-items:stretch;gap:9px}#store .shop-toolbar select{max-width:100%;flex:1}#store .checkout-fields{grid-template-columns:1fr}}
+
+
+/* Keyboard accessibility: visible skip navigation and clear focus */
+.skip-link {
+  position:fixed;
+  top:10px;
+  left:10px;
+  z-index:1000;
+  padding:12px 16px;
+  transform:translateY(-160%);
+  background:#7A1E3A;
+  color:#FFFFFF;
+  font:700 13px Manrope,sans-serif;
+  text-decoration:none;
+}
+.skip-link:focus { transform:translateY(0); }
+#store a:focus-visible,
+#store button:focus-visible,
+#store input:focus-visible,
+#store select:focus-visible,
+#store textarea:focus-visible {
+  outline:2px solid #C5A46D;
+  outline-offset:3px;
+}
+@media(prefers-reduced-motion:reduce) {
+  html { scroll-behavior:auto; }
+}
